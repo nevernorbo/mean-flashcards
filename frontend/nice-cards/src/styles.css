@@ -34,17 +34,25 @@ body {
 
     --color-divider: 229, 231, 235;
 
-    --color-shadow: 229, 231, 235;
     --color-ring: 67, 20, 7;
   }
 
-  /* .theme-dark {
-    --color-text-base: 255, 255, 255;
-    --color-text-muted: 254, 202, 202;
-    --color-text-inverted: 220, 38, 38;
-    --color-fill: 185, 28, 28;
-    --color-button-accent: 255, 255, 255;
-    --color-button-accent-hover: 254, 242, 242;
-    --color-button-muted: 239, 68, 68;
-  } */
+  .dark {
+    --color-surface: 17, 24, 39;
+    --color-surface-pop: 31, 41, 55;
+
+    --color-base: 249, 250, 251;
+    --color-muted: 156, 163, 175;
+    --color-faint: 156, 163, 175;
+    --color-faintest: 75, 85, 99;
+    --color-inverted: 67, 20, 7;
+
+    --color-primary: 249, 115, 22;
+    --color-secondary: 194, 64, 12;
+    --color-emphasis: 251, 146, 60;
+
+    --color-divider: 31, 41, 55;
+
+    --color-ring: 67, 20, 7;
+  }
 }

@@ -10,6 +10,7 @@ function withOpacity(variableName) {
 
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
+  darkMode: 'class',
   theme: {
     extend: {
       textColor: {

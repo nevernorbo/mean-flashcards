@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LucideAngularModule, Menu, Spade, X } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Menu,
+  Spade,
+  X,
+  MoonStar,
+  Sun,
+} from 'lucide-angular';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -9,11 +16,21 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   currentRoute: string = '';
+  currentTheme: string = 'light';
   mobileNavigationIsOpen: boolean = false;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    if (
+      !('theme' in localStorage) &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      localStorage['theme'] = 'dark';
+    } else {
+      this.currentTheme = localStorage.getItem('theme')!;
+    }
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;
@@ -24,6 +41,8 @@ export class NavbarComponent implements OnInit {
   readonly Menu = Menu;
   readonly Spade = Spade;
   readonly X = X;
+  readonly MoonStar = MoonStar;
+  readonly Sun = Sun;
 
   navigationItems: NavigationItem[] = [
     {
@@ -46,6 +65,23 @@ export class NavbarComponent implements OnInit {
 
   toggleMobileNavigation = () => {
     this.mobileNavigationIsOpen = !this.mobileNavigationIsOpen;
+  };
+
+  toggleTheme = () => {
+    if (this.currentTheme === 'light') {
+      localStorage['theme'] = 'dark';
+      this.currentTheme = 'dark';
+    } else {
+      localStorage['theme'] = 'light';
+      this.currentTheme = 'light';
+    }
+
+    document.documentElement.classList.toggle(
+      'dark',
+      localStorage['theme'] === 'dark' ||
+        (!('theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+    );
   };
 }
 

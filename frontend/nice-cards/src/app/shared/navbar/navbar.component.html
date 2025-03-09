@@ -1,5 +1,5 @@
 <nav
-  class="border-skin-color-divider bg-skin-color-surface sticky top-0 z-10 border-b px-2 shadow-sm lg:px-4 xl:px-6 dark:border-gray-600 dark:bg-gray-900"
+  class="border-skin-color-divider bg-skin-color-surface sticky top-0 z-10 border-b px-2 shadow-sm lg:px-4 xl:px-6"
 >
   <!-- Icon button -->
   <div class="relative flex items-center justify-between">
@@ -11,7 +11,7 @@
       ></lucide-icon>
     </div>
     <button
-      class="text-skin-muted ring-skin-color-primary hover:bg-skin-color-surface-pop hover:text-skin-base m-2 flex w-10 shrink-0 cursor-pointer rounded-md p-2 focus:ring-2 md:hidden dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+      class="text-skin-muted ring-skin-color-primary hover:bg-skin-color-surface-pop hover:text-skin-base m-2 flex w-10 shrink-0 cursor-pointer rounded-md p-2 focus:ring-2 md:hidden"
       (click)="toggleMobileNavigation()"
     >
       @if (mobileNavigationIsOpen) {
@@ -22,6 +22,19 @@
     </button>
     <div class="hidden md:flex">
       <ul class="flex gap-2">
+        <li class="flex">
+          <button
+            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base m-2 flex w-10 shrink-0 cursor-pointer rounded-full p-2 focus:ring-2"
+            (click)="toggleTheme()"
+          >
+            @if (currentTheme === 'dark') {
+              <lucide-icon [img]="MoonStar"></lucide-icon>
+            } @else {
+              <lucide-icon [img]="Sun"></lucide-icon>
+            }
+          </button>
+        </li>
+
         @for (navItem of navigationItems; track navItem.title) {
           <li class="flex">
             <a
@@ -30,8 +43,8 @@
               class="w-full border-b-2 px-3 pb-3.5 pt-4"
               [class]="
                 currentRoute === navItem.route
-                  ? 'border-skin-color-primary text-skin-base font-semibold dark:text-gray-200'
-                  : 'hover:border-skin-color-divider border-skin-color-surface text-skin-muted hover:text-skin-base dark:bg-gray-900 dark:text-gray-400 dark:hover:text-gray-300'
+                  ? 'border-skin-color-primary text-skin-base font-semibold'
+                  : 'hover:border-skin-color-divider border-skin-color-surface text-skin-muted hover:text-skin-base'
               "
             >
               {{ navItem.title }}
@@ -43,20 +56,16 @@
   </div>
 
   @if (mobileNavigationIsOpen) {
-    <div
-      class="bg-skin-color-surface absolute left-0 right-0 mt-1 shadow-md dark:m-0 dark:bg-gray-900 dark:p-2"
-    >
-      <ul
-        class="mt-2 flex flex-col gap-1 py-1 md:hidden dark:text-gray-400"
-      >
+    <div class="bg-skin-color-surface absolute left-0 right-0 mt-1 shadow-md">
+      <ul class="mt-2 flex flex-col gap-1 py-1 md:hidden">
         @for (navItem of navigationItems; track navItem.title) {
           <li class="flex">
             <a
-              class="hover:bg-skin-color-surface-pop w-full border-l-4 border-skin-color-surface px-3 py-2 dark:rounded-md dark:border-none dark:hover:bg-gray-800 dark:hover:text-white"
+              class="hover:bg-skin-color-surface-pop border-skin-color-surface w-full border-l-4 px-3 py-2"
               [class]="
                 currentRoute === navItem.route
-                  ? 'text-skin-primary bg-skin-color-surface-pop border-l-4 border-l-skin-color-primary font-semibold dark:border-none dark:bg-gray-950 dark:text-white dark:hover:bg-gray-950'
-                  : 'hover:border-skin-color-faint dark:bg-gray-900'
+                  ? 'text-skin-primary bg-skin-color-surface-pop border-l-skin-color-primary border-l-4 font-semibold'
+                  : 'hover:border-skin-color-faint'
               "
               [href]="navItem.route"
             >
@@ -64,6 +73,18 @@
             </a>
           </li>
         }
+        <li class="flex">
+          <button
+            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base my-2 mx-3 flex w-10 shrink-0 cursor-pointer rounded-full p-2 focus:ring-2"
+            (click)="toggleTheme()"
+          >
+            @if (currentTheme === 'dark') {
+              <lucide-icon [img]="MoonStar"></lucide-icon>
+            } @else {
+              <lucide-icon [img]="Sun"></lucide-icon>
+            }
+          </button>
+        </li>
       </ul>
     </div>
   }
