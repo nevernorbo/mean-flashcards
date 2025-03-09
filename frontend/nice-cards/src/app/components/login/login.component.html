@@ -1,0 +1,75 @@
+<div class="mt-12 flex grow items-center justify-center self-start">
+  <div class="mx-4 flex shrink grow flex-col gap-4 px-6 sm:mx-6 md:max-w-3xl">
+    <h2 class="my-2 text-wrap text-center text-2xl">Sign in to your account</h2>
+    <form class="flex flex-col gap-4">
+      <div class="relative">
+        <input
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="off"
+          required
+          placeholder="Username"
+          class="border-skin-color-faintest focus:border-skin-color-primary peer w-full rounded-md placeholder-transparent shadow-sm focus:ring-0"
+        />
+        <label
+          for="username"
+          class="bg-skin-color-surface text-skin-faint peer-focus:bg-skin-color-surface pointer-events-none absolute -top-2.5 left-2 px-1 text-sm transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-sm"
+        >
+          Username
+        </label>
+      </div>
+      <div class="relative">
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          class="border-skin-color-faintest focus:border-skin-color-primary peer w-full rounded-md placeholder-transparent shadow-sm focus:ring-0"
+        />
+        <label
+          for="password"
+          class="bg-skin-color-surface text-skin-faint peer-focus:bg-skin-color-surface pointer-events-none absolute -top-2.5 left-2 px-1 text-sm transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-sm"
+        >
+          Password
+        </label>
+      </div>
+      <button
+        type="submit"
+        class="bg-skin-color-primary text-skin-inverted ring-skin-color-ring hover:bg-skin-color-emphasis mt-3 rounded-md p-2 shadow-sm transition-all duration-300 ease-in-out focus:ring-2"
+      >
+        Sign in
+      </button>
+
+      <div class="mt-4 flex flex-col gap-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="border-skin-color-divider w-full border-t"></div>
+          </div>
+          <div class="relative flex items-center justify-center">
+            <span class="bg-skin-color-surface text-skin-muted px-2 text-sm"
+              >Or continue with</span
+            >
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div
+            class="border-skin-color-faintest hover:bg-skin-color-surface-pop flex w-full cursor-pointer items-center justify-center gap-3 rounded-md border p-2 shadow-sm"
+          >
+            <img src="google.svg" alt="facebook" class="size-5" />
+            <span class="text-sm font-semibold">Google</span>
+          </div>
+          <div
+            class="border-skin-color-faintest hover:bg-skin-color-surface-pop flex w-full cursor-pointer items-center justify-center gap-3 rounded-md border p-2 shadow-sm"
+          >
+            <img src="facebook.svg" alt="facebook" class="size-6" />
+
+            <span class="text-sm font-semibold">Facebook</span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
