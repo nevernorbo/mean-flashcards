@@ -1,17 +1,17 @@
 <nav
   class="border-skin-color-divider bg-skin-color-surface sticky top-0 z-10 border-b px-2 shadow-sm lg:px-4 xl:px-6"
 >
-  <!-- Icon button -->
-  <div class="relative flex items-center justify-between">
-    <div class="w-10 p-2">
+  <div class="relative flex items-center">
+    <div class="mr-8 flex items-center gap-2">
       <lucide-icon
         [img]="Spade"
         class="text-skin-primary"
         strokeWidth="3"
       ></lucide-icon>
+      <div class="text-2xl font-semibold">NiceCards</div>
     </div>
     <button
-      class="text-skin-muted ring-skin-color-primary hover:bg-skin-color-surface-pop hover:text-skin-base m-2 flex w-10 shrink-0 cursor-pointer rounded-md p-2 focus:ring-2 md:hidden"
+      class="text-skin-muted ring-skin-color-primary hover:bg-skin-color-surface-pop hover:text-skin-base m-2 ml-auto flex w-10 shrink-0 cursor-pointer rounded-md p-2 focus:ring-2 md:hidden"
       (click)="toggleMobileNavigation()"
     >
       @if (mobileNavigationIsOpen) {
@@ -20,11 +20,28 @@
         <lucide-icon [img]="Menu"></lucide-icon>
       }
     </button>
-    <div class="hidden md:flex">
-      <ul class="flex gap-2">
-        <li class="flex">
+    <div class="hidden md:flex md:flex-grow">
+      <ul class="flex flex-grow gap-2">
+        @for (navItem of leftSideNavigationItems; track navItem.title) {
+          <li class="flex">
+            <a
+              [routerLink]="navItem.route"
+              routerLinkActive="active"
+              class="w-full border-b-2 px-3 pb-3.5 pt-4"
+              [class]="
+                currentRoute === navItem.route
+                  ? 'border-skin-color-primary text-skin-base'
+                  : 'hover:border-skin-color-divider border-skin-color-surface text-skin-muted hover:text-skin-base'
+              "
+            >
+              {{ navItem.title }}
+            </a>
+          </li>
+        }
+
+        <li class="ml-auto flex">
           <button
-            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base m-2 flex w-10 shrink-0 cursor-pointer rounded-full p-2 focus:ring-2"
+            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base m-2 flex w-10 shrink-0 cursor-pointer items-center justify-center rounded-full focus:ring-2"
             (click)="toggleTheme()"
           >
             @if (currentTheme === 'dark') {
@@ -35,17 +52,20 @@
           </button>
         </li>
 
-        @for (navItem of navigationItems; track navItem.title) {
+        @for (navItem of guestNavigationItems; track navItem.title) {
           <li class="flex">
             <a
               [routerLink]="navItem.route"
               routerLinkActive="active"
-              class="w-full border-b-2 px-3 pb-3.5 pt-4"
-              [class]="
-                currentRoute === navItem.route
-                  ? 'border-skin-color-primary text-skin-base font-semibold'
-                  : 'hover:border-skin-color-divider border-skin-color-surface text-skin-muted hover:text-skin-base'
-              "
+              class="mb-2.5 mt-3 w-full rounded-md px-3 py-1"
+              [ngClass]="{
+                'ring-skin-color-primary text-skin-base ring':
+                  currentRoute === navItem.route,
+                'text-skin-muted hover:text-skin-base':
+                  currentRoute !== navItem.route,
+                'bg-skin-color-primary dark:text-skin-inverted dark:hover:text-black': navItem.route == '/login',
+                'bg-skin-color-surface-pop': navItem.route == '/register',
+              }"
             >
               {{ navItem.title }}
             </a>
@@ -56,18 +76,20 @@
   </div>
 
   @if (mobileNavigationIsOpen) {
-    <div class="bg-skin-color-surface absolute left-0 right-0 mt-1 shadow-md">
+    <div
+      class="bg-skin-color-surface dark:border-skin-color-divider absolute left-0 right-0 mt-1 shadow-md dark:border-b"
+    >
       <ul class="mt-2 flex flex-col gap-1 py-1 md:hidden">
-        @for (navItem of navigationItems; track navItem.title) {
+        @for (navItem of getAllNavigationItems(); track navItem.title) {
           <li class="flex">
             <a
               class="hover:bg-skin-color-surface-pop border-skin-color-surface w-full border-l-4 px-3 py-2"
               [class]="
                 currentRoute === navItem.route
-                  ? 'text-skin-primary bg-skin-color-surface-pop border-l-skin-color-primary border-l-4 font-semibold'
+                  ? 'text-skin-primary bg-skin-color-surface-pop border-l-skin-color-primary border-l-4'
                   : 'hover:border-skin-color-faint'
               "
-              [href]="navItem.route"
+              [routerLink]="navItem.route"
             >
               {{ navItem.title }}
             </a>
@@ -75,7 +97,7 @@
         }
         <li class="flex">
           <button
-            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base my-2 mx-3 flex w-10 shrink-0 cursor-pointer rounded-full p-2 focus:ring-2"
+            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base mx-3 my-2 flex w-10 shrink-0 cursor-pointer rounded-full p-2 focus:ring-2"
             (click)="toggleTheme()"
           >
             @if (currentTheme === 'dark') {

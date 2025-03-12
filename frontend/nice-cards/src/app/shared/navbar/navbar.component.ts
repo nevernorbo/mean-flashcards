@@ -8,10 +8,11 @@ import {
   Sun,
 } from 'lucide-angular';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [LucideAngularModule, RouterModule],
+  imports: [LucideAngularModule, RouterModule, NgClass],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
@@ -44,7 +45,7 @@ export class NavbarComponent implements OnInit {
   readonly MoonStar = MoonStar;
   readonly Sun = Sun;
 
-  navigationItems: NavigationItem[] = [
+  leftSideNavigationItems: NavigationItem[] = [
     {
       title: 'Home',
       route: '/',
@@ -53,6 +54,9 @@ export class NavbarComponent implements OnInit {
       title: 'Collections',
       route: '/collections',
     },
+  ];
+
+  guestNavigationItems: NavigationItem[] = [
     {
       title: 'Login',
       route: '/login',
@@ -62,6 +66,8 @@ export class NavbarComponent implements OnInit {
       route: '/register',
     },
   ];
+
+  getAllNavigationItems = () => this.leftSideNavigationItems.concat(this.guestNavigationItems)
 
   toggleMobileNavigation = () => {
     this.mobileNavigationIsOpen = !this.mobileNavigationIsOpen;
