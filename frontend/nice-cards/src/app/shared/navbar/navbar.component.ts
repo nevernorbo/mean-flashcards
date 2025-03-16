@@ -1,40 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  LucideAngularModule,
-  Menu,
-  Spade,
-  X,
-  MoonStar,
-  Sun,
-} from 'lucide-angular';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { LucideAngularModule, Menu, Spade, X } from 'lucide-angular';
+import { ToggleThemeButtonComponent } from './toggle-theme-button';
 
 @Component({
   selector: 'app-navbar',
-  imports: [LucideAngularModule, RouterModule, NgClass],
+  imports: [
+    LucideAngularModule,
+    RouterModule,
+    NgClass,
+    ToggleThemeButtonComponent,
+  ],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
-  currentRoute: string = '';
-  currentTheme: string = 'light';
-  mobileNavigationIsOpen: boolean = false;
+  currentRoute = signal('');
+  mobileMenuIsOpen = signal(false);
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    if (
-      !('theme' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      localStorage['theme'] = 'dark';
-    } else {
-      this.currentTheme = localStorage.getItem('theme')!;
-    }
-
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.currentRoute = event.urlAfterRedirects;
+        this.currentRoute.set(event.urlAfterRedirects);
       }
     });
   }
@@ -42,8 +31,6 @@ export class NavbarComponent implements OnInit {
   readonly Menu = Menu;
   readonly Spade = Spade;
   readonly X = X;
-  readonly MoonStar = MoonStar;
-  readonly Sun = Sun;
 
   leftSideNavigationItems: NavigationItem[] = [
     {
@@ -67,27 +54,11 @@ export class NavbarComponent implements OnInit {
     },
   ];
 
-  getAllNavigationItems = () => this.leftSideNavigationItems.concat(this.guestNavigationItems)
+  getAllNavigationItems = () =>
+    this.leftSideNavigationItems.concat(this.guestNavigationItems);
 
-  toggleMobileNavigation = () => {
-    this.mobileNavigationIsOpen = !this.mobileNavigationIsOpen;
-  };
-
-  toggleTheme = () => {
-    if (this.currentTheme === 'light') {
-      localStorage['theme'] = 'dark';
-      this.currentTheme = 'dark';
-    } else {
-      localStorage['theme'] = 'light';
-      this.currentTheme = 'light';
-    }
-
-    document.documentElement.classList.toggle(
-      'dark',
-      localStorage['theme'] === 'dark' ||
-        (!('theme' in localStorage) &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches)
-    );
+  toggleMobileMenu = () => {
+    this.mobileMenuIsOpen.set(!this.mobileMenuIsOpen());
   };
 }
 

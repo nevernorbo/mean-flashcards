@@ -1,0 +1,45 @@
+<div
+  class="flex h-56 cursor-pointer flex-col rounded-md bg-skin-color-surface-pop/75 p-2 hover:bg-skin-color-surface-pop"
+>
+  @if (cardCollection) {
+    <!-- Header -->
+    <div
+      class="mb-2 flex justify-between border-b border-skin-color-faintest pb-2"
+    >
+      <!-- Title -->
+      <div class="flex flex-col">
+        <h4 class="text-lg font-semibold">{{ cardCollection.name }}</h4>
+        <div class="text-xs text-skin-faint">
+          {{ cardCollection.date }}
+        </div>
+      </div>
+      <!-- Creator -->
+      <div class="group py-1">
+        <img
+          src="./favicon.ico"
+          alt="user"
+          class="size-8 rounded-full ring-skin-color-primary group-hover:ring-2"
+        />
+      </div>
+    </div>
+
+    <!-- Content overview -->
+    <div class="line-clamp-5 text-pretty break-words text-sm text-skin-muted">
+      {{ cardCollection.overview }}
+    </div>
+
+    <!-- Footer -->
+    <div
+      class="mt-auto flex justify-between border-t border-skin-color-faintest pt-2"
+    >
+      <!-- !TODO like collection -->
+      <button
+        onclick="toggleLikeCollection()"
+        class="flex cursor-pointer items-center gap-1 rounded-full px-2 py-1 text-sm text-skin-muted hover:bg-skin-color-faintest/75 hover:text-skin-base"
+      >
+        <lucide-icon class="size-4" [img]="Heart"></lucide-icon>
+        <span> 100 </span>
+      </button>
+    </div>
+  }
+</div>

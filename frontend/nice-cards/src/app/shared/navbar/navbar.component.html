@@ -1,20 +1,26 @@
 <nav
-  class="border-skin-color-divider bg-skin-color-surface sticky top-0 z-10 border-b px-2 shadow-sm lg:px-4 xl:px-6"
+  class="border-b border-skin-color-divider bg-skin-color-surface px-2 shadow-sm lg:px-4 xl:px-6"
 >
   <div class="relative flex items-center">
-    <div class="mr-8 flex items-center gap-2">
+    <!-- Title -->
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      class="mr-8 flex items-center gap-2"
+    >
       <lucide-icon
         [img]="Spade"
         class="text-skin-primary"
         strokeWidth="3"
       ></lucide-icon>
       <div class="text-2xl font-semibold">NiceCards</div>
-    </div>
+    </a>
+    <!-- Mobile: toggle menu -->
     <button
-      class="text-skin-muted ring-skin-color-primary hover:bg-skin-color-surface-pop hover:text-skin-base m-2 ml-auto flex w-10 shrink-0 cursor-pointer rounded-md p-2 focus:ring-2 md:hidden"
-      (click)="toggleMobileNavigation()"
+      class="m-2 ml-auto flex w-10 shrink-0 cursor-pointer rounded-md p-2 text-skin-muted ring-skin-color-primary hover:bg-skin-color-surface-pop hover:text-skin-base focus:ring-2 md:hidden"
+      (click)="toggleMobileMenu()"
     >
-      @if (mobileNavigationIsOpen) {
+      @if (mobileMenuIsOpen()) {
         <lucide-icon [img]="X"></lucide-icon>
       } @else {
         <lucide-icon [img]="Menu"></lucide-icon>
@@ -29,9 +35,9 @@
               routerLinkActive="active"
               class="w-full border-b-2 px-3 pb-3.5 pt-4"
               [class]="
-                currentRoute === navItem.route
+                currentRoute() === navItem.route
                   ? 'border-skin-color-primary text-skin-base'
-                  : 'hover:border-skin-color-divider border-skin-color-surface text-skin-muted hover:text-skin-base'
+                  : 'border-skin-color-surface text-skin-muted hover:border-skin-color-divider hover:text-skin-base'
               "
             >
               {{ navItem.title }}
@@ -39,18 +45,7 @@
           </li>
         }
 
-        <li class="ml-auto flex">
-          <button
-            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base m-2 flex w-10 shrink-0 cursor-pointer items-center justify-center rounded-full focus:ring-2"
-            (click)="toggleTheme()"
-          >
-            @if (currentTheme === 'dark') {
-              <lucide-icon [img]="MoonStar"></lucide-icon>
-            } @else {
-              <lucide-icon [img]="Sun"></lucide-icon>
-            }
-          </button>
-        </li>
+        <li class="ml-auto flex" toggle-theme-button></li>
 
         @for (navItem of guestNavigationItems; track navItem.title) {
           <li class="flex">
@@ -59,11 +54,12 @@
               routerLinkActive="active"
               class="mb-2.5 mt-3 w-full rounded-md px-3 py-1"
               [ngClass]="{
-                'ring-skin-color-primary text-skin-base ring':
-                  currentRoute === navItem.route,
+                'text-skin-base ring ring-skin-color-primary':
+                  currentRoute() === navItem.route,
                 'text-skin-muted hover:text-skin-base':
-                  currentRoute !== navItem.route,
-                'bg-skin-color-primary dark:text-skin-inverted dark:hover:text-black': navItem.route == '/login',
+                  currentRoute() !== navItem.route,
+                'bg-skin-color-primary dark:text-skin-inverted dark:hover:text-black':
+                  navItem.route == '/login',
                 'bg-skin-color-surface-pop': navItem.route == '/register',
               }"
             >
@@ -75,18 +71,18 @@
     </div>
   </div>
 
-  @if (mobileNavigationIsOpen) {
+  @if (mobileMenuIsOpen()) {
     <div
-      class="bg-skin-color-surface dark:border-skin-color-divider absolute left-0 right-0 mt-1 shadow-md dark:border-b"
+      class="absolute left-0 right-0 bg-skin-color-surface shadow-md dark:border-b dark:border-skin-color-divider"
     >
       <ul class="mt-2 flex flex-col gap-1 py-1 md:hidden">
         @for (navItem of getAllNavigationItems(); track navItem.title) {
           <li class="flex">
             <a
-              class="hover:bg-skin-color-surface-pop border-skin-color-surface w-full border-l-4 px-3 py-2"
+              class="w-full border-l-4 border-skin-color-surface px-3 py-2 hover:bg-skin-color-surface-pop"
               [class]="
-                currentRoute === navItem.route
-                  ? 'text-skin-primary bg-skin-color-surface-pop border-l-skin-color-primary border-l-4'
+                currentRoute() === navItem.route
+                  ? 'border-l-4 border-l-skin-color-primary bg-skin-color-surface-pop text-skin-primary'
                   : 'hover:border-skin-color-faint'
               "
               [routerLink]="navItem.route"
@@ -95,18 +91,7 @@
             </a>
           </li>
         }
-        <li class="flex">
-          <button
-            class="text-skin-muted ring-skin-color-primary bg-skin-color-surface-pop hover:text-skin-base mx-3 my-2 flex w-10 shrink-0 cursor-pointer rounded-full p-2 focus:ring-2"
-            (click)="toggleTheme()"
-          >
-            @if (currentTheme === 'dark') {
-              <lucide-icon [img]="MoonStar"></lucide-icon>
-            } @else {
-              <lucide-icon [img]="Sun"></lucide-icon>
-            }
-          </button>
-        </li>
+        <li class="flex" toggle-theme-button></li>
       </ul>
     </div>
   }

@@ -17,6 +17,10 @@ body {
   min-height: 100dvh;
 }
 
+:root {
+  background-color: rgba(var(--color-surface));
+}
+
 @layer base {
   :root {
     --color-surface: 255, 255, 255;
@@ -43,7 +47,7 @@ body {
 
     --color-base: 249, 250, 251;
     --color-muted: 156, 163, 175;
-    --color-faint: 156, 163, 175;
+    --color-faint: 116, 123, 135;
     --color-faintest: 75, 85, 99;
     --color-inverted: 67, 20, 7;
 
