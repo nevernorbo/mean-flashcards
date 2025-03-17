@@ -1,16 +1,16 @@
 <div
   class="flex h-56 cursor-pointer flex-col rounded-md bg-skin-color-surface-pop/75 p-2 hover:bg-skin-color-surface-pop"
 >
-  @if (cardCollection) {
+  @if (cardCollection()) {
     <!-- Header -->
     <div
       class="mb-2 flex justify-between border-b border-skin-color-faintest pb-2"
     >
       <!-- Title -->
       <div class="flex flex-col">
-        <h4 class="text-lg font-semibold">{{ cardCollection.name }}</h4>
+        <h4 class="text-lg font-semibold">{{ cardCollection().name }}</h4>
         <div class="text-xs text-skin-faint">
-          {{ cardCollection.date }}
+          {{ cardCollection().date | date }}
         </div>
       </div>
       <!-- Creator -->
@@ -25,7 +25,7 @@
 
     <!-- Content overview -->
     <div class="line-clamp-5 text-pretty break-words text-sm text-skin-muted">
-      {{ cardCollection.overview }}
+      {{ cardCollection().overview }}
     </div>
 
     <!-- Footer -->

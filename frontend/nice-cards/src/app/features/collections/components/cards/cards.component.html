@@ -3,4 +3,7 @@
   @for (cardCollection of cardCollections; track cardCollection.id) {
     <collection-card class="w-full md:w-96" [cardCollection]="cardCollection"></collection-card>
   }
+  @empty {
+    <div> There are no items. </div>
+  }
 </div>

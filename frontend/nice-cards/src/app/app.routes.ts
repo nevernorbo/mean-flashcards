@@ -1,12 +1,12 @@
-import { Routes } from '@angular/router'
-import { LoginComponent } from './components/login/login.component'
-import { RegisterComponent } from './components/register/register.component'
-import { HomeComponent } from './components/home/home.component'
-import { CollectionsComponent } from './components/collections/collections.component'
+import { Routes } from '@angular/router';
+import { CollectionsComponent } from './features/collections/pages/collections/collections.component';
+import { HomeComponent } from './features/home/pages/home/home.component';
+import { LoginComponent } from './features/login/pages/login/login.component';
+import { RegisterComponent } from './features/register/pages/register/register.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'collections', component: CollectionsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-]
+];

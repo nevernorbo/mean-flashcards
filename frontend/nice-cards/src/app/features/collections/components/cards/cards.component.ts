@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CardComponent } from '../card/card.component';
+import { CardCollection, CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'collection-cards',
@@ -7,7 +7,8 @@ import { CardComponent } from '../card/card.component';
   templateUrl: './cards.component.html',
 })
 export class CardsComponent {
-  cardCollections = [
+  // cardCollections: CardCollection[] = [];
+  cardCollections: CardCollection[] = [
     {
       id: '1',
       name: 'Windows',
