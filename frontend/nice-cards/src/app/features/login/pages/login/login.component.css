@@ -1,11 +1,5 @@
 :host {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
-
-/* @media (prefers-color-scheme: dark) {
-    :host {
-        background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
-    }
-} */
