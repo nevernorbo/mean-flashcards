@@ -1,5 +1,5 @@
 <nav
-  class="border-b border-skin-color-divider bg-skin-color-surface px-2 shadow-sm lg:px-4 xl:px-6"
+  class="relative z-10 border-b border-skin-color-divider bg-skin-color-surface px-2 shadow-sm lg:px-4 xl:px-6"
 >
   <div class="relative flex items-center">
     <!-- Title -->
@@ -69,29 +69,33 @@
       </ul>
     </div>
   </div>
-
-  @if (mobileMenuIsOpen()) {
-    <div
-      class="absolute left-0 right-0 bg-skin-color-surface shadow-md dark:border-b dark:border-skin-color-divider"
-    >
-      <ul class="mt-2 flex flex-col gap-1 py-1 md:hidden">
-        @for (navItem of getAllNavigationItems(); track navItem.title) {
-          <li class="flex">
-            <a
-              class="w-full border-l-4 border-skin-color-surface px-3 py-2 hover:bg-skin-color-surface-pop"
-              [class]="
-                currentRoute() === navItem.route
-                  ? 'border-l-4 border-l-skin-color-primary bg-skin-color-surface-pop text-skin-primary'
-                  : 'hover:border-skin-color-faint'
-              "
-              [routerLink]="navItem.route"
-            >
-              {{ navItem.title }}
-            </a>
-          </li>
-        }
-        <li class="flex" toggle-theme-button></li>
-      </ul>
-    </div>
-  }
 </nav>
+
+@if (mobileMenuIsOpen()) {
+  <div
+    class="absolute inset-0 h-dvh w-dvw backdrop-blur-sm"
+    (click)="toggleMobileMenu()"
+  ></div>
+  <div
+    class="animate-slideDown absolute left-0 right-0 bg-skin-color-surface shadow-md dark:border-b dark:border-skin-color-divider"
+  >
+    <ul class="mt-2 flex flex-col gap-1 py-1 md:hidden">
+      @for (navItem of getAllNavigationItems(); track navItem.title) {
+        <li class="flex" (click)="toggleMobileMenu()">
+          <a
+            class="w-full border-l-4 border-skin-color-surface px-3 py-2 hover:bg-skin-color-surface-pop"
+            [class]="
+              currentRoute() === navItem.route
+                ? 'border-l-4 border-l-skin-color-primary bg-skin-color-surface-pop text-skin-primary'
+                : 'hover:border-skin-color-faint'
+            "
+            [routerLink]="navItem.route"
+          >
+            {{ navItem.title }}
+          </a>
+        </li>
+      }
+      <li class="flex" toggle-theme-button></li>
+    </ul>
+  </div>
+}

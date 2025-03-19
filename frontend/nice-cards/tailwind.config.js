@@ -52,11 +52,17 @@ module.exports = {
           'color-primary': withOpacity('--color-primary'),
         }
       },
-      // gradientColorStops: {
-      //   skin: {
-      //     hue: withOpacity('--color-fill'),
-      //   },
-      // },
+
+
+      keyframes: {
+        slideDown: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0%)' },
+        }
+      },
+      animation: {
+        slideDown: 'slideDown 300ms ease-in-out',
+      }
     },
   },
   plugins: [require('@tailwindcss/forms')],
