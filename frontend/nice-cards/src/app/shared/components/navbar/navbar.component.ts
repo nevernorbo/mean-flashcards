@@ -54,10 +54,11 @@ export class NavbarComponent implements OnInit {
     },
   ];
 
-  getAllNavigationItems = () =>
-    this.leftSideNavigationItems.concat(this.guestNavigationItems);
+  getAllNavigationItems() {
+    return this.leftSideNavigationItems.concat(this.guestNavigationItems);
+  }
 
-  toggleMobileMenu = () => {
+  toggleMobileMenu() {
     this.mobileMenuIsOpen.set(!this.mobileMenuIsOpen());
   };
 }

@@ -29,7 +29,7 @@ export class ToggleThemeButtonComponent {
     });
   }
 
-  setTheme = (): void => {
+  setTheme() {
     this.useDarkTheme.set(
       localStorage['theme'] === 'dark' ||
         (!('theme' in localStorage) &&
@@ -41,14 +41,14 @@ export class ToggleThemeButtonComponent {
       'theme',
       this.useDarkTheme() ? 'dark' : 'light'
     );
-  };
+  }
 
-  toggleTheme = () => {
+  toggleTheme() {
     this.useDarkTheme.set(!this.useDarkTheme());
     document.documentElement.classList.toggle('dark', this.useDarkTheme());
     window.localStorage.setItem(
       'theme',
       this.useDarkTheme() ? 'dark' : 'light'
     );
-  };
+  }
 }
