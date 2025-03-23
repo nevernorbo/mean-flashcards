@@ -6,3 +6,10 @@ services:
       - "4200:4200"
     volumes:
       - ./frontend:/app/frontend
+  backend:
+    build: ./backend
+    command: npx ts-node src/server.ts
+    ports:
+      - "5200:5200"
+    volumes:
+      - ./backend:/app/backend
