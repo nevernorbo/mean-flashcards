@@ -3,11 +3,11 @@
     <h2 class="my-2 text-wrap text-center text-2xl">Sign in to your account</h2>
     <form [formGroup]="loginForm" (submit)="handleSubmit()" class="flex flex-col gap-4">
       <form-input
-        [id]="'username'"
-        [name]="'username'"
-        [type]="'text'"
-        [placeholder]="'Username'"
-        formControlName="username"
+        [id]="'email'"
+        [name]="'email'"
+        [type]="'email'"
+        [placeholder]="'Email'"
+        formControlName="email"
       />
       <form-input
         [id]="'password'"

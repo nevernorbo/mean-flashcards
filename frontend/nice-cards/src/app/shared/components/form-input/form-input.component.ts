@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, forwardRef, input, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,

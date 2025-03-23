@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { SingleSignOnOptionsComponent } from '../../../register/components/single-sign-on-options/single-sign-on-options.component';
-import { FormInputComponent } from '../../../../shared/components/form-input/form-input.component';
 import {
-  FormGroup,
   FormBuilder,
-  Validators,
+  FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
+import { LoginForm } from '@core/auth/models/auth.interface';
+import { AuthService } from '@core/auth/services/auth.service';
+import { SingleSignOnOptionsComponent } from '@features/register/components/single-sign-on-options/single-sign-on-options.component';
+import { FormInputComponent } from '@shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-login',
@@ -21,16 +23,26 @@ import {
 export class LoginComponent {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', [Validators.email, Validators.required]],
       password: ['', Validators.required],
     });
   }
 
   handleSubmit(): void {
-    console.log(this.loginForm.value);
+    this.authService.login(this.loginForm.value as LoginForm).subscribe({
+      next: (response) => {
+        console.log('Login response: ', response);
+      },
+      error: (error) => {
+        console.log('Login failed: ', error);
+      },
+    });
   }
 }

@@ -16,19 +16,21 @@ import { Component } from '@angular/core';
       </div>
 
       <div class="flex gap-6">
-        <div
+        <button
+          (click)="handleLoginWithGoogle()"
           class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-md border border-skin-color-faintest p-2 shadow-sm hover:bg-skin-color-surface-pop"
         >
           <img src="google.svg" alt="facebook" class="size-5" />
           <span class="text-sm font-semibold">Google</span>
-        </div>
-        <div
+        </button>
+        <button
+          (click)="handleLoginWithFacebook()"
           class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-md border border-skin-color-faintest p-2 shadow-sm hover:bg-skin-color-surface-pop"
         >
           <img src="facebook.svg" alt="facebook" class="size-6" />
 
           <span class="text-sm font-semibold">Facebook</span>
-        </div>
+        </button>
       </div>
 
       <div class="self-center text-skin-muted">
@@ -42,4 +44,12 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export class SingleSignOnOptionsComponent {}
+export class SingleSignOnOptionsComponent {
+  handleLoginWithGoogle() {
+    window.location.href = 'http://localhost:5200/api/auth/google';
+  }
+
+  handleLoginWithFacebook() {
+    window.location.href = 'http://localhost:5200/api/auth/facebook';
+  }
+}

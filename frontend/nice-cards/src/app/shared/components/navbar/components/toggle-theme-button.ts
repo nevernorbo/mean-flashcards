@@ -2,7 +2,7 @@ import { Component, effect, signal } from '@angular/core';
 import { LucideAngularModule, MoonStar, Sun } from 'lucide-angular';
 
 @Component({
-  selector: '[toggle-theme-button]',
+  selector: 'toggle-theme-button',
   imports: [LucideAngularModule],
   template: `
     <button
@@ -15,6 +15,12 @@ import { LucideAngularModule, MoonStar, Sun } from 'lucide-angular';
         <lucide-icon [img]="Sun"></lucide-icon>
       }
     </button>
+  `,
+  styles: `
+    :host {
+      margin-left: auto;
+      display: flex;
+    }
   `,
 })
 export class ToggleThemeButtonComponent {

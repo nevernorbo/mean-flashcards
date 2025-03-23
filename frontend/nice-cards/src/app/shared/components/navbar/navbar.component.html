@@ -8,12 +8,8 @@
       routerLinkActive="active"
       class="mr-8 flex items-center gap-2"
     >
-      <lucide-icon
-        [img]="Spade"
-        class="text-skin-primary"
-        strokeWidth="3"
-      ></lucide-icon>
-      <div class="text-2xl font-semibold">NiceCards</div>
+      <img src="nice-cards-logo.png" alt="logo" class="size-8" />
+      <div class="text-2xl font-semibold tracking-tighter">NiceCards</div>
     </a>
     <!-- Mobile: toggle menu -->
     <button
@@ -27,7 +23,7 @@
       }
     </button>
     <div class="hidden md:flex md:flex-grow">
-      <ul class="flex flex-grow gap-2">
+      <ul class="flex flex-grow items-center gap-2">
         @for (navItem of leftSideNavigationItems; track navItem.title) {
           <li class="flex">
             <a
@@ -45,26 +41,30 @@
           </li>
         }
 
-        <li class="ml-auto flex" toggle-theme-button></li>
+        <toggle-theme-button />
 
-        @for (navItem of guestNavigationItems; track navItem.title) {
-          <li class="flex">
-            <a
-              [routerLink]="navItem.route"
-              class="mb-2.5 mt-3 w-full rounded-md px-3 py-1"
-              [ngClass]="{
-                'text-skin-base ring ring-skin-color-primary':
-                  currentRoute() === navItem.route,
-                'text-skin-muted hover:text-skin-base':
-                  currentRoute() !== navItem.route,
-                'bg-skin-color-primary dark:text-skin-inverted dark:hover:text-black':
-                  navItem.route == '/login',
-                'bg-skin-color-surface-pop': navItem.route == '/register',
-              }"
-            >
-              {{ navItem.title }}
-            </a>
-          </li>
+        @if (isAuthenticated()) {
+          <profile-nav-item />
+        } @else {
+          @for (navItem of guestNavigationItems; track navItem.title) {
+            <li class="flex">
+              <a
+                [routerLink]="navItem.route"
+                class="mb-2.5 mt-3 w-full rounded-md px-3 py-1"
+                [ngClass]="{
+                  'text-skin-base ring ring-skin-color-primary':
+                    currentRoute() === navItem.route,
+                  'text-skin-muted hover:text-skin-base':
+                    currentRoute() !== navItem.route,
+                  'bg-skin-color-primary dark:text-skin-inverted dark:hover:text-black':
+                    navItem.route == '/login',
+                  'bg-skin-color-surface-pop': navItem.route == '/register',
+                }"
+              >
+                {{ navItem.title }}
+              </a>
+            </li>
+          }
         }
       </ul>
     </div>
@@ -77,7 +77,7 @@
     (click)="toggleMobileMenu()"
   ></div>
   <div
-    class="animate-slideDown absolute left-0 right-0 bg-skin-color-surface shadow-md dark:border-b dark:border-skin-color-divider"
+    class="absolute left-0 right-0 animate-slideDown bg-skin-color-surface shadow-md dark:border-b dark:border-skin-color-divider"
   >
     <ul class="mt-2 flex flex-col gap-1 py-1 md:hidden">
       @for (navItem of getAllNavigationItems(); track navItem.title) {
@@ -95,7 +95,12 @@
           </a>
         </li>
       }
-      <li class="flex" toggle-theme-button></li>
+      <div>
+        @if (isAuthenticated()) {
+          <profile-nav-item />
+        }
+        <toggle-theme-button />
+      </div>
     </ul>
   </div>
 }
