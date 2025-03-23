@@ -8,7 +8,7 @@ services:
       - ./frontend:/app/frontend
   backend:
     build: ./backend
-    command: npx ts-node src/server.ts
+    command: npm run dev
     ports:
       - "5200:5200"
     volumes:

@@ -8,4 +8,4 @@ RUN npm install
 
 EXPOSE 5200
 
-CMD ["npx", "ts-node", "src/server.ts"]
+CMD ["npm", "run", "dev"]
