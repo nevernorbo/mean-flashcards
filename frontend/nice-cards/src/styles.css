@@ -32,7 +32,7 @@ body {
     --color-faintest: 209, 213, 219;
     --color-inverted: 67, 20, 7;
 
-    --color-primary: 249, 115, 22;
+    --color-primary: 255, 72, 0;
     --color-secondary: 194, 64, 12;
     --color-emphasis: 251, 146, 60;
 
@@ -51,7 +51,7 @@ body {
     --color-faintest: 75, 85, 99;
     --color-inverted: 67, 20, 7;
 
-    --color-primary: 249, 115, 22;
+    --color-primary: 255, 72, 0;
     --color-secondary: 194, 64, 12;
     --color-emphasis: 251, 146, 60;
 

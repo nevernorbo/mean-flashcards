@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  border-radius: 30px;
+  min-height: 16rem;
+}
+
+.card::after,
+.card::before {
+  content: '';
+  border-radius: inherit;
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    rgba(var(--color-primary)),
+    rgba(var(--color-secondary)),
+    rgba(var(--color-faintest)),
+    rgba(var(--color-primary))
+  );
+  animation:
+    rotation 20s linear infinite,
+    fade-in 4s forwards;
+}
+
+.card::after {
+  filter: blur(5px);
+}
+
+.content {
+  animation: fade-in 4s forwards;
+}
+
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(0);
+    visibility: visible;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}

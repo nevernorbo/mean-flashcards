@@ -5,6 +5,7 @@ import { AuthService } from '@core/auth/services/auth.service';
   selector: 'app-home',
   imports: [],
   templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
   constructor(private authService: AuthService) {
