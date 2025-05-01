@@ -17,10 +17,11 @@ export interface User {
     };
 }
 
-export type PublicUser = Omit<User, "_id" | "password" | "googleId" | "facebookId">;
+export type PublicUser = Omit<User, "password" | "googleId" | "facebookId">;
 
 export function createPublicUser(user: User): PublicUser {
     const publicUser: PublicUser = {
+        _id: user._id,
         role: user.role,
         email: user.email,
         profile: {

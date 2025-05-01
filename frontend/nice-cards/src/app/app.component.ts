@@ -19,7 +19,7 @@ export class AppComponent {
     this.authService.checkAuthStatus().subscribe({
       next: (response) => {
         this.authService.isAuthenticated.set(response.isAuthenticated);
-        this.authService.isAuthenticated.set(response.user);
+        this.authService.authenticatedUser.set(response.user);
       },
       error: (error) => {
         console.log('Error trying to get authenticated user: ', error);

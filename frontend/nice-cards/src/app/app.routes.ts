@@ -12,18 +12,20 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   // {
-  //   path: 'login/success',
+  //   path: 'collection/new',
   //   loadComponent: () =>
-  //     import('@features/login/components/login-success/login-success.component').then(
-  //       (c) => c.LoginSuccessComponent
-  //     ),
+  //     import(
+  //       '@features/collections/pages/new-collection/new-collection.component'
+  //     ).then((c) => c.NewCollectionComponent),
+  //   canActivate: [authGuard],
   // },
   {
-    path: 'login/failure',
+    path: 'collection/:id',
     loadComponent: () =>
-      import('@features/login/components/login-failure/login-failure.component').then(
-        (c) => c.LoginFailureComponent
-      ),
+      import(
+        '@features/collections/pages/collection/collection.component'
+      ).then((c) => c.CollectionComponent),
+    canActivate: [authGuard],
   },
   {
     path: 'login',

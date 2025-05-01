@@ -13,7 +13,7 @@ dotenv.config();
 const { ATLAS_URI, SESSION_SECRET } = process.env;
 
 if (!ATLAS_URI) {
-    console.error("No ATLAS_URI environment variable has been defined in config.env");
+    console.error("No ATLAS_URI environment variable has been defined in .env");
     process.exit(1);
 }
 

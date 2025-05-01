@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, input, InputSignal } from '@angular/core';
-import { LucideAngularModule, Heart, HeartOff } from 'lucide-angular';
+import { Component, computed, input, InputSignal } from '@angular/core';
+import { CardCollection } from '@features/collections/models/card.interface';
+import { Heart, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'collection-card',
@@ -8,18 +9,32 @@ import { LucideAngularModule, Heart, HeartOff } from 'lucide-angular';
   templateUrl: './card.component.html',
 })
 export class CardComponent {
-  cardCollection: InputSignal<CardCollection> = input({} as CardCollection);
-
-  // I'll need an isLiked field here, that property belongs to the user and it's stored in a likedCollections array
   readonly Heart = Heart;
-  readonly HeartOff = HeartOff;
 
+  currentUserId = input('');
+  cardCollection: InputSignal<CardCollection> = input({} as CardCollection);
+  isSkeletonLoader = input(false);
+
+  isLiked = computed(() => {
+    if (this.isSkeletonLoader()) {
+      return false;
+    }
+
+    if (this.cardCollection().likedBy.includes(this.currentUserId())) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  openCollection() {
+    console.log("Open clicked");
+  }
+
+  toggleLikeCollection(event: MouseEvent) {
+    console.log("Like clicked");
+
+    // Do not accidentally open the collection when the user clicks the like button
+    event.stopPropagation();
+  }
 }
-
-export type CardCollection = {
-  id: string;
-  name: string;
-  ownerId: string;
-  overview: string;
-  date: string;
-};

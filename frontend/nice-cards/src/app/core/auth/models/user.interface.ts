@@ -1,4 +1,5 @@
 export interface PublicUser {
+  _id: string;
   role: 'user' | 'admin';
   email: string;
 

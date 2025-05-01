@@ -16,14 +16,9 @@
         [placeholder]="'Password'"
         formControlName="password"
       />
-      <button
-        type="submit"
-        disabled
-        [disabled]="!loginForm.valid"
-        class="mt-3 rounded-md bg-skin-color-primary p-2 text-skin-inverted shadow-sm ring-skin-color-ring transition-all duration-300 ease-in-out hover:bg-skin-color-emphasis focus:ring-2 disabled:bg-skin-color-surface-pop disabled:text-skin-faintest disabled:hover:bg-skin-color-surface-pop"
-      >
+      <div nice-button class="grow" [disabled]="!loginForm.valid" [type]="'submit'">
         Sign in
-      </button>
+      </div>
     </form>
 
     <single-sign-on-options />

@@ -1,9 +1,94 @@
-<div class="flex flex-wrap justify-center gap-2">
-  <!-- Items -->
-  @for (cardCollection of cardCollections; track cardCollection.id) {
-    <collection-card class="w-full md:w-96" [cardCollection]="cardCollection"></collection-card>
-  }
-  @empty {
-    <div> There are no items. </div>
-  }
+<div class="*:my-10">
+  <div>
+    <div class="mb-3 flex items-center gap-2">
+      <h2
+        class="inline-flex items-center gap-2 rounded-md bg-skin-color-surface-pop p-2 text-xl underline decoration-orange-600 underline-offset-2 shadow-sm transition-colors duration-300 hover:decoration-orange-500"
+      >
+        <lucide-icon [img]="BookMarked"></lucide-icon>
+        <span>My collections</span>
+      </h2>
+      @if (ownedCardCollections$().length !== 0) {
+        <div nice-button (click)="handleCreateClicked()">
+          <div class="flex gap-2">
+            <lucide-icon [img]="CirclePlus"></lucide-icon>
+            <span>Create</span>
+          </div>
+        </div>
+      }
+    </div>
+    <div
+      class="grid grid-flow-row grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3"
+    >
+      <!-- Items -->
+      @if (fetchingOwnedCollections()) {
+        <collection-card [isSkeletonLoader]="true"></collection-card>
+      } @else {
+        @for (
+          cardCollection of ownedCardCollections$();
+          track cardCollection._id
+        ) {
+          <collection-card
+            [cardCollection]="cardCollection"
+            [currentUserId]="currentUserId"
+          ></collection-card>
+        } @empty {
+          <div
+            class="group flex h-56 flex-col items-center justify-center gap-4"
+          >
+            <div
+              class="text-skin-base/75 transition-colors duration-300 group-hover:text-skin-base"
+            >
+              You don't have any collections yet.
+            </div>
+            <div nice-button (click)="handleCreateClicked()">
+              <div class="flex gap-2">
+                <lucide-icon [img]="CirclePlus"></lucide-icon>
+                <span>Create</span>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="inset-0 my-4 flex items-center">
+    <div class="w-full border-t border-skin-color-faintest"></div>
+  </div>
+
+  <div>
+    <h2
+      class="mb-3 inline-flex items-center gap-2 rounded-md bg-skin-color-surface-pop p-2 text-xl underline decoration-orange-600 underline-offset-2 shadow-sm transition-colors duration-300 hover:decoration-orange-500"
+    >
+      <lucide-icon [img]="LibraryBig"></lucide-icon>
+      <span>Browse collections</span>
+    </h2>
+    <div
+      class="grid grid-flow-row grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+    >
+      @if (fetchingForeignCollections()) {
+        <collection-card [isSkeletonLoader]="true"></collection-card>
+      } @else {
+        @for (
+          cardCollection of foreignCardCollections$();
+          track cardCollection._id
+        ) {
+          <collection-card
+            [cardCollection]="cardCollection"
+            [currentUserId]="currentUserId"
+          ></collection-card>
+        } @empty {
+          <div
+            class="group flex h-56 flex-col items-center justify-center gap-4"
+          >
+            <div
+              class="text-skin-base/75 transition-colors duration-300 group-hover:text-skin-base"
+            >
+              No collections to display.
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
 </div>

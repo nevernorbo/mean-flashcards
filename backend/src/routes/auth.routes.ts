@@ -4,9 +4,11 @@ import passport from "passport";
 import { collections } from "../database";
 import { User } from "../models/user";
 
+// Router for handling authentication throughout the app, using express sessions and passport (local, google, facebook)
 export const authRouter = express.Router();
 authRouter.use(express.json());
 
+// Local signup
 authRouter.post("/signup", async (req, res) => {
     try {
         const { email, username, password, passwordAgain } = req.body;
@@ -57,6 +59,7 @@ authRouter.post("/signup", async (req, res) => {
     }
 });
 
+// Login
 authRouter.post(
     "/login",
     passport.authenticate("local", {
@@ -65,6 +68,7 @@ authRouter.post(
     })
 );
 
+// Google SSO
 authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 authRouter.get(
@@ -75,6 +79,7 @@ authRouter.get(
     })
 );
 
+// Facebook SSO
 authRouter.get("/facebook", passport.authenticate("facebook"));
 
 authRouter.get(
@@ -85,6 +90,7 @@ authRouter.get(
     })
 );
 
+// Logout
 authRouter.post("/logout", (req, res) => {
     if (!req.isAuthenticated()) {
         res.status(401).send("Not logged in");
@@ -97,6 +103,7 @@ authRouter.post("/logout", (req, res) => {
     });
 });
 
+// Authentication check (mostly used by angulars route guard)
 authRouter.get("/isAuthenticated", (req, res) => {
     if (req.isAuthenticated()) {
         res.status(200).send(true);
@@ -105,6 +112,7 @@ authRouter.get("/isAuthenticated", (req, res) => {
     }
 });
 
+// Return information about the user in session
 authRouter.get("/checkAuthStatus", (req, res) => {
     res.json({
         isAuthenticated: req.isAuthenticated(),
@@ -112,6 +120,7 @@ authRouter.get("/checkAuthStatus", (req, res) => {
     });
 });
 
+// Used for authenticating endpoint on the server
 export function isAuthenticated(req: express.Request, res: express.Response, next: express.NextFunction) {
     if (req.isAuthenticated()) return next();
     res.status(401).json({ message: "Unauthorized" });

@@ -1,0 +1,73 @@
+<main
+  style="height: calc(100% - 3.5rem)"
+  class="absolute inset-0 mt-12 flex grow animate-slideDown justify-center self-start backdrop-blur-md"
+>
+  <div
+    class="m-12 flex h-fit shrink grow flex-col gap-4 rounded-md border border-skin-color-primary bg-skin-color-surface p-5 md:max-w-2xl"
+  >
+    <div class="my-2 flex items-center justify-between">
+      <h2 class="text-wrap text-center text-2xl">Create your new collection</h2>
+      <div
+        (click)="closePopup()"
+        class="cursor-pointer transition-colors duration-300 hover:text-red-500"
+      >
+        <lucide-icon [img]="CircleX" />
+      </div>
+    </div>
+    <form
+      [formGroup]="newCollectionForm"
+      (submit)="handleSubmit()"
+      class="flex flex-col gap-6"
+    >
+      <form-input
+        [id]="'title'"
+        [name]="'title'"
+        [type]="'text'"
+        [placeholder]="'Title'"
+        formControlName="title"
+      />
+
+      <div
+        class="relative w-full rounded-md border border-skin-color-faintest bg-skin-color-surface p-3 text-skin-base placeholder-transparent shadow-sm placeholder:select-none focus:border-skin-color-primary focus:ring-0"
+      >
+        <div class="flex items-center gap-2">
+          <input
+            type="radio"
+            id="private"
+            name="visibility"
+            value="0"
+            checked
+            formControlName="visibility"
+            class="bg-skin-color-faintest text-orange-600 focus:ring-orange-500"
+          />
+          <label for="private">Private</label>
+        </div>
+        <div class="flex items-center gap-2">
+          <input
+            type="radio"
+            id="public"
+            name="visibility"
+            value="1"
+            formControlName="visibility"
+            class="bg-skin-color-faintest text-orange-600 focus:ring-orange-500"
+          />
+          <label for="public">Public</label>
+        </div>
+        <label
+          class="pointer-events-none absolute -top-2.5 left-2 bg-skin-color-surface px-1 text-sm text-skin-faint transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-skin-color-surface peer-focus:text-sm"
+        >
+          Visibility
+        </label>
+      </div>
+
+      <div
+        nice-button
+        class="grow"
+        [disabled]="!newCollectionForm.valid"
+        [type]="'submit'"
+      >
+        Create
+      </div>
+    </form>
+  </div>
+</main>

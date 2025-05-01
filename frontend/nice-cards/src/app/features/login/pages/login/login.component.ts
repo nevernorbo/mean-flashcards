@@ -9,6 +9,7 @@ import { LoginForm } from '@core/auth/models/auth.interface';
 import { AuthService } from '@core/auth/services/auth.service';
 import { SingleSignOnOptionsComponent } from '@features/register/components/single-sign-on-options/single-sign-on-options.component';
 import { FormInputComponent } from '@shared/components/form-input/form-input.component';
+import { ButtonComponent } from "../../../../shared/components/button/button.component";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ import { FormInputComponent } from '@shared/components/form-input/form-input.com
     SingleSignOnOptionsComponent,
     FormInputComponent,
     ReactiveFormsModule,
-  ],
+    ButtonComponent
+],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

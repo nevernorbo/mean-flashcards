@@ -1,24 +1,30 @@
 <main class="p-4">
   <!-- Searchbar -->
-  <div class="mx-2 mb-4 flex items-center justify-center p-2">
-    <button class="mr-2 text-skin-faint hover:text-skin-base">
+  <div class="mb-4 flex justify-center">
+    <button class="mr-4 flex items-center text-skin-faint hover:text-skin-base">
       <lucide-icon [img]="SlidersHorizontal"></lucide-icon>
     </button>
     <input
       id="search"
       placeholder="Search..."
       type="text"
-      class="peer rounded-l-2xl border border-skin-color-faintest bg-skin-color-surface px-4 focus:border-skin-color-primary focus:bg-skin-color-surface-pop focus:ring-0"
+      class="peer min-w-24 max-w-96 flex-grow rounded-l-2xl border border-skin-color-faintest bg-skin-color-surface focus:border-skin-color-primary focus:bg-skin-color-surface-pop focus:ring-0"
     />
     <button
       for="search"
       title="Run search"
-      class="peer-focus:border-skin-base flex cursor-pointer justify-center rounded-r-2xl border border-l-0 border-skin-color-faintest px-3 py-2 text-skin-faint transition-all duration-300 peer-focus:text-skin-base"
+      class="peer-focus:border-skin-base flex cursor-pointer items-center rounded-r-2xl border border-l-0 border-skin-color-faintest px-3 text-skin-faint transition-all duration-300 peer-focus:text-skin-base"
     >
       <lucide-icon [img]="Search"></lucide-icon>
     </button>
   </div>
 
   <!-- Cards -->
-  <collection-cards></collection-cards>
+  <collection-cards
+    (createPopupToggled)="checkPopupStatus($event)"
+  ></collection-cards>
+
+  @if (createPopupOpen()) {
+    <create-card-popup (popupClosed)="popupClosed()"></create-card-popup>
+  }
 </main>
