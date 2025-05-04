@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { LucideAngularModule, Search, SlidersHorizontal } from 'lucide-angular';
-import { CardsComponent } from '../../components/cards/cards.component';
+import { CollectionCardsComponent } from '../../components/collection-cards/collection-cards.component';
 import { NewCollectionComponent } from '../new-collection/new-collection.component';
 
 @Component({
   selector: 'app-collections',
-  imports: [LucideAngularModule, CardsComponent, NewCollectionComponent],
+  imports: [LucideAngularModule, CollectionCardsComponent, NewCollectionComponent],
   templateUrl: './collections.component.html',
   styleUrl: './collections.component.css',
 })

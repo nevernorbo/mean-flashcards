@@ -13,15 +13,12 @@ cardCollectionRouter.use(express.json());
 cardCollectionRouter.post("/", isAuthenticated, async (req, res) => {
     try {
         const userId = (req.user as User)._id!;
-
         const { title, visibility } = req.body;
 
         const cardCollection: CardCollection = {
             creationDate: new Date().toISOString().substring(0, 10),
-            cards: [],
             title: title,
             summary: "",
-            likedBy: [],
             ownerId: userId,
             visibility: visibility,
         };
@@ -29,7 +26,13 @@ cardCollectionRouter.post("/", isAuthenticated, async (req, res) => {
         const result = await collections?.cardCollections?.insertOne(cardCollection);
 
         if (result?.acknowledged) {
-            res.status(200).send(result.insertedId);
+            const cardsResult = await collections?.cards?.insertOne({ _id: result.insertedId, cards: [] });
+
+            if (!cardsResult?.acknowledged) {
+                res.status(500).send("Failed to create new card collection");
+            } else {
+                res.status(200).send(result.insertedId);
+            }
         } else {
             res.status(500).send("Failed to create new card collection");
         }
@@ -54,3 +57,53 @@ cardCollectionRouter.get("/:id", isAuthenticated, async (req, res) => {
         res.status(404).send(`Failed to find the card collection with ID: ${req?.params?.id}`);
     }
 });
+
+// Delete card from collection
+cardCollectionRouter.delete("/:collectionId", isAuthenticated, async (req, res) => {
+    try {
+        const id = new ObjectId(req?.params?.collectionId);
+        const response = await collections?.cardCollections?.deleteOne({ _id: id });
+
+        res.status(200).send(response);
+    } catch (error) {
+        res.status(500).send(error instanceof Error ? error.message : "Unknown error");
+    }
+});
+
+// Update existing card
+cardCollectionRouter.patch("/:collectionId/:order", isAuthenticated, async (req, res) => {
+    try {
+        const id = new ObjectId(req?.params?.collectionId);
+        const { title, summary } = req.body;
+
+        const response = await collections?.cardCollections?.updateOne(
+            {
+                _id: id,
+            },
+            {
+                $set: {
+                    title: title,
+                    summary: summary,
+                },
+            }
+        );
+
+        res.status(200).send(response);
+    } catch (error) {
+        res.status(500).send(error instanceof Error ? error.message : "Unknown error");
+    }
+});
+
+// Like/unlike collection
+// cardCollectionRouter.post("/like", isAuthenticated, async (req, res) => {
+//     try {
+
+//         if (result?.acknowledged) {
+//             res.status(200).send("Success");
+//         } else {
+//             res.status(500).send("Failed to toggle like collection");
+//         }
+//     } catch (error) {
+//         res.status(404).send("Failed to toggle like collection");
+//     }
+// });

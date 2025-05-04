@@ -1,0 +1,109 @@
+<div class="h-full">
+  <div class="mx-auto flex max-w-[800px] justify-center gap-1">
+    <div
+      (click)="handlePaging('previous')"
+      class="group flex h-96 w-24 cursor-pointer items-center justify-center rounded-md py-2 transition-colors duration-300 hover:bg-skin-color-surface-pop"
+    >
+      @if (hasPreviousCard()) {
+        <lucide-icon
+          [img]="CircleArrowLeft"
+          size="30"
+          class="text-skin-faint transition-colors duration-300 group-hover:text-skin-primary"
+        />
+      } @else {
+        <lucide-icon
+          [img]="CircleArrowLeft"
+          size="30"
+          class="text-skin-faintest"
+        />
+      }
+    </div>
+    <div
+      (click)="flipCard()"
+      class="relative h-96 w-full cursor-pointer rounded-md transition-colors duration-300"
+    >
+      @if (currentCard().order) {
+        <flash-card
+          [card]="currentCard()"
+          [frontShown]="frontShown()"
+          [animationDisabled]="animationDisabled()"
+          [pageInfo]="`${currentCard().order} / ${cards().length}`"
+        ></flash-card>
+      } @else {
+        <div
+          class="flex h-full items-center justify-center rounded-md bg-skin-color-surface-pop text-center text-xl text-skin-faint"
+        >
+          There are no cards in this collection yet
+        </div>
+      }
+    </div>
+    <div
+      (click)="handlePaging('next')"
+      class="group flex h-96 w-24 cursor-pointer items-center justify-center rounded-md py-2 transition-colors duration-300 hover:bg-skin-color-surface-pop"
+    >
+      @if (hasNextCard()) {
+        <lucide-icon
+          [img]="CircleArrowRight"
+          size="30"
+          class="text-skin-faint transition-colors duration-300 group-hover:text-skin-primary"
+        />
+      } @else {
+        <lucide-icon
+          [img]="CircleArrowRight"
+          size="30"
+          class="text-skin-faintest"
+        />
+      }
+    </div>
+  </div>
+  <!-- Toolbar -->
+  @if (userCanEdit()) {
+    <div
+      class="mx-auto my-2 flex w-fit items-center justify-center rounded-md bg-skin-color-surface-pop p-1"
+    >
+      <div
+        (click)="create()"
+        class="group relative flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-skin-color-surface/70 hover:text-green-500"
+      >
+        <lucide-icon [img]="Plus" />
+        <div
+          class="absolute left-1/2 top-full mt-2 hidden w-max -translate-x-1/2 transform rounded bg-skin-color-surface-pop px-2 py-1 text-sm shadow-lg group-hover:block"
+        >
+          Add new card at the end
+        </div>
+      </div>
+      <div
+        (click)="edit()"
+        class="group relative flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-skin-color-surface/70 hover:text-yellow-400"
+      >
+        <lucide-icon [img]="Pencil" />
+        <div
+          class="absolute left-1/2 top-full mt-2 hidden w-max -translate-x-1/2 transform rounded bg-skin-color-surface-pop px-2 py-1 text-sm shadow-lg group-hover:block"
+        >
+          Edit card
+        </div>
+      </div>
+      <div
+        (click)="deleteClicked()"
+        class="group relative flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-skin-color-surface/70 hover:text-red-500"
+      >
+        <lucide-icon [img]="X" />
+        <div
+          class="absolute left-1/2 top-full mt-2 hidden w-max -translate-x-1/2 transform rounded bg-skin-color-surface-pop px-2 py-1 text-sm shadow-lg group-hover:block"
+        >
+          Delete card
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+@if (showDeletePopup()) {
+  <confirm-popup
+    [confirmationQuestion]="'Delete card?'"
+    [confirmText]="'Delete'"
+    [closeText]="'Cancel'"
+    (popupConfirmed)="delete()"
+    (popupClosed)="deleteCardPopupClosed()"
+  ></confirm-popup>
+}

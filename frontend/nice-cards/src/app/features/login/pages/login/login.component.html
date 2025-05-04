@@ -16,9 +16,9 @@
         [placeholder]="'Password'"
         formControlName="password"
       />
-      <div nice-button class="grow" [disabled]="!loginForm.valid" [type]="'submit'">
+      <button nice-button [disabled]="!loginForm.valid" [type]="'submit'">
         Sign in
-      </div>
+      </button>
     </form>
 
     <single-sign-on-options />

@@ -59,14 +59,22 @@ authRouter.post("/signup", async (req, res) => {
     }
 });
 
-// Login
-authRouter.post(
-    "/login",
-    passport.authenticate("local", {
-        successRedirect: "http://localhost:4200",
-        failureRedirect: "http://localhost:4200/login/failure",
-    })
-);
+authRouter.post("/login", (req, res, next) => {
+    passport.authenticate("local", (error: string | null, user: User) => {
+        if (error) {
+            res.status(500).send(error);
+        } else {
+            req.login(user, (err: string | null) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).send("Internal server error.");
+                } else {
+                    res.status(200).send(user);
+                }
+            });
+        }
+    })(req, res, next);
+});
 
 // Google SSO
 authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));

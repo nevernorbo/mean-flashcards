@@ -7,17 +7,15 @@
         <lucide-icon [img]="BookMarked"></lucide-icon>
         <span>My collections</span>
       </h2>
-      @if (ownedCardCollections$().length !== 0) {
-        <div nice-button (click)="handleCreateClicked()">
-          <div class="flex gap-2">
-            <lucide-icon [img]="CirclePlus"></lucide-icon>
-            <span>Create</span>
-          </div>
+      <button nice-button (click)="handleCreateClicked()">
+        <div class="flex gap-2">
+          <lucide-icon [img]="CirclePlus"></lucide-icon>
+          <span>Create</span>
         </div>
-      }
+      </button>
     </div>
     <div
-      class="grid grid-flow-row grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3"
+      class="grid grid-flow-row grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
     >
       <!-- Items -->
       @if (fetchingOwnedCollections()) {
@@ -39,12 +37,6 @@
               class="text-skin-base/75 transition-colors duration-300 group-hover:text-skin-base"
             >
               You don't have any collections yet.
-            </div>
-            <div nice-button (click)="handleCreateClicked()">
-              <div class="flex gap-2">
-                <lucide-icon [img]="CirclePlus"></lucide-icon>
-                <span>Create</span>
-              </div>
             </div>
           </div>
         }

@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, input, InputSignal } from '@angular/core';
+import { Router } from '@angular/router';
 import { CardCollection } from '@features/collections/models/card.interface';
+import { CollectionService } from '@features/collections/services/collection.service';
 import { Heart, LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -8,7 +10,7 @@ import { Heart, LucideAngularModule } from 'lucide-angular';
   imports: [LucideAngularModule, DatePipe],
   templateUrl: './card.component.html',
 })
-export class CardComponent {
+export class CollectionCardComponent {
   readonly Heart = Heart;
 
   currentUserId = input('');
@@ -20,19 +22,21 @@ export class CardComponent {
       return false;
     }
 
-    if (this.cardCollection().likedBy.includes(this.currentUserId())) {
-      return true;
-    } else {
-      return false;
-    }
+    // TODO
+    return true;
   });
 
+  constructor(
+    private router: Router,
+    private collectionService: CollectionService
+  ) {}
+
   openCollection() {
-    console.log("Open clicked");
+    this.router.navigateByUrl(`/collection/${this.cardCollection()._id}`);
   }
 
   toggleLikeCollection(event: MouseEvent) {
-    console.log("Like clicked");
+    console.log('Like clicked');
 
     // Do not accidentally open the collection when the user clicks the like button
     event.stopPropagation();

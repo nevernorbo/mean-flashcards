@@ -1,7 +1,7 @@
-import { Component, input, output, signal } from '@angular/core';
-import { CardComponent } from '../card/card.component';
+import { Component, output, signal } from '@angular/core';
+import { CollectionCardComponent } from '../collection-card/card.component';
 import { CardCollection } from '@features/collections/models/card.interface';
-import { CardService } from '@features/collections/services/card.service';
+import { CollectionService } from '@features/collections/services/collection.service';
 import { AuthService } from '@core/auth/services/auth.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import {
@@ -14,10 +14,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'collection-cards',
-  imports: [CardComponent, ButtonComponent, LucideAngularModule],
-  templateUrl: './cards.component.html',
+  imports: [CollectionCardComponent, ButtonComponent, LucideAngularModule],
+  templateUrl: './collection-cards.component.html',
 })
-export class CardsComponent {
+export class CollectionCardsComponent {
   readonly BookMarked = BookMarked;
   readonly LibraryBig = LibraryBig;
   readonly CirclePlus = CirclePlus;
@@ -36,11 +36,11 @@ export class CardsComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private cardService: CardService
+    private collectionService: CollectionService
   ) {
     this.currentUserId = this.authService.authenticatedUser()?._id ?? '';
 
-    this.cardService.getOwnedCardCollections().subscribe({
+    this.collectionService.getOwnedCardCollections().subscribe({
       next: (cardCollections) => {
         this.ownedCardCollections$.set(cardCollections);
       },
@@ -52,7 +52,7 @@ export class CardsComponent {
       },
     });
 
-    this.cardService.getForeignCardCollections().subscribe({
+    this.collectionService.getForeignCardCollections().subscribe({
       next: (cardCollections) => {
         this.foreignCardCollections$.set(cardCollections);
       },

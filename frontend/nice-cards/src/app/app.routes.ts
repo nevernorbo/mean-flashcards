@@ -11,14 +11,14 @@ export const routes: Routes = [
       ).then((c) => c.CollectionsComponent),
     canActivate: [authGuard],
   },
-  // {
-  //   path: 'collection/new',
-  //   loadComponent: () =>
-  //     import(
-  //       '@features/collections/pages/new-collection/new-collection.component'
-  //     ).then((c) => c.NewCollectionComponent),
-  //   canActivate: [authGuard],
-  // },
+  {
+    path: 'collection/new',
+    loadComponent: () =>
+      import(
+        '@features/collections/pages/new-collection/new-collection.component'
+      ).then((c) => c.NewCollectionComponent),
+    canActivate: [authGuard],
+  },
   {
     path: 'collection/:id',
     loadComponent: () =>

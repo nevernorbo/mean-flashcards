@@ -3,17 +3,17 @@ import { ObjectId } from "mongodb";
 export interface CardCollection {
     _id?: ObjectId;
     creationDate: string;
-    cards: Card[];
     title: string;
     summary: string;
-    likedBy: ObjectId[];
     ownerId: ObjectId;
     visibility: CardCollectionVisibility;
 }
 
-export enum CardCollectionVisibility {
-    Private,
-    Public,
+export type CardCollectionVisibility = "private" | "public";
+
+export interface Cards {
+    _id: ObjectId; // The same as the CardCollection Id
+    cards: Card[];
 }
 
 export interface Card {

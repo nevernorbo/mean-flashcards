@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { OutlinedButtonComponent } from '@shared/components/button/outlined-button.component';
 
 @Component({
   selector: 'single-sign-on-options',
+  imports: [OutlinedButtonComponent],
   template: `
     <div class="mt-4 flex flex-col gap-6">
       <div class="relative">
@@ -16,30 +18,23 @@ import { Component } from '@angular/core';
       </div>
 
       <div class="flex gap-6">
-        <button
+        <div
+          nice-outlined-button
+          class="w-full"
           (click)="handleLoginWithGoogle()"
-          class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-md border border-skin-color-faintest p-2 shadow-sm hover:bg-skin-color-surface-pop"
         >
           <img src="google.svg" alt="facebook" class="size-5" />
           <span class="text-sm font-semibold">Google</span>
-        </button>
-        <button
+        </div>
+
+        <div
+          nice-outlined-button
+          class="w-full"
           (click)="handleLoginWithFacebook()"
-          class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-md border border-skin-color-faintest p-2 shadow-sm hover:bg-skin-color-surface-pop"
         >
           <img src="facebook.svg" alt="facebook" class="size-6" />
-
           <span class="text-sm font-semibold">Facebook</span>
-        </button>
-      </div>
-
-      <div class="self-center text-skin-muted">
-        Already have an account?
-        <a
-          class="text-skin-base underline decoration-orange-500 decoration-2"
-          href="login"
-          >Login</a
-        >
+        </div>
       </div>
     </div>
   `,

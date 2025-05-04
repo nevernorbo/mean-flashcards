@@ -38,13 +38,6 @@ export class LoginComponent {
   }
 
   handleSubmit(): void {
-    this.authService.login(this.loginForm.value as LoginForm).subscribe({
-      next: (response) => {
-        console.log('Login response: ', response);
-      },
-      error: (error) => {
-        console.log('Login failed: ', error);
-      },
-    });
+    this.authService.login(this.loginForm.value as LoginForm);
   }
 }

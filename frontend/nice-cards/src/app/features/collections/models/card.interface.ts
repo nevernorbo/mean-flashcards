@@ -1,12 +1,15 @@
 export interface CardCollection {
   _id?: string;
   creationDate: string;
-  cards: Card[];
   title: string;
   summary: string;
-  likedBy: string[];
   ownerId: string;
   visibility: CardCollectionVisibility;
+}
+
+export interface Cards {
+  _id: string; // The same as the CardCollection Id
+  cards: Card[];
 }
 
 export interface Card {
@@ -15,10 +18,7 @@ export interface Card {
   order: number;
 }
 
-export enum CardCollectionVisibility {
-  Private,
-  Public,
-}
+export type CardCollectionVisibility = 'private' | 'public';
 
 export interface CreateNewCollectionForm {
   title: string;

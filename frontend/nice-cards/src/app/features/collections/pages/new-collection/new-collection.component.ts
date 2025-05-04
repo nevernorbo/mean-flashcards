@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CardService } from '@features/collections/services/card.service';
+import { CollectionService } from '@features/collections/services/collection.service';
 import { CreateNewCollectionForm } from '@features/collections/models/card.interface';
 import { Router } from '@angular/router';
 
@@ -30,7 +30,7 @@ export class NewCollectionComponent {
 
   constructor(
     private fb: FormBuilder,
-    private cardService: CardService,
+    private collectionService: CollectionService,
     private router: Router
   ) {}
 
@@ -42,13 +42,13 @@ export class NewCollectionComponent {
   }
 
   handleSubmit() {
-    this.cardService
+    this.collectionService
       .createCardCollection(
         this.newCollectionForm.value as CreateNewCollectionForm
       )
       .subscribe({
         next: (createdId) => {
-          this.router.navigateByUrl(`/card-collection/${createdId}`);
+          this.router.navigateByUrl(`/collection/${createdId}`);
         },
         error: (error) => {
           console.log('Error trying to create new card collection: ', error);

@@ -1,0 +1,32 @@
+<div
+  class="flashcard-container"
+  [@flip]="frontShown() ? 'front' : 'back'"
+  [@.disabled]="animationDisabled()"
+>
+  <div class="flashcard-side flashcard-front">
+    {{ card()?.front ? card()?.front : 'No front content' }}
+    <div
+      class="absolute bottom-0 left-0 rounded-sm p-1 text-xs text-skin-muted"
+    >
+      Front
+    </div>
+    <div
+      class="absolute bottom-0 right-0 rounded-sm p-1 text-sm text-skin-muted"
+    >
+      {{ pageInfo() }}
+    </div>
+  </div>
+  <div class="flashcard-side flashcard-back">
+    {{ card()?.back ? card()?.back : 'No back content' }}
+    <div
+      class="absolute bottom-0 left-0 rounded-sm p-1 text-xs text-skin-muted"
+    >
+      Back
+    </div>
+    <div
+      class="absolute bottom-0 right-0 rounded-sm p-1 text-sm text-skin-muted"
+    >
+      {{ pageInfo() }}
+    </div>
+  </div>
+</div>

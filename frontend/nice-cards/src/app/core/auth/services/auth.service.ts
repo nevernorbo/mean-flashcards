@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { LoginForm, RegisterForm } from '../models/auth.interface';
 import { PublicUser } from '../models/user.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -13,21 +14,32 @@ export class AuthService {
   private authUrl = 'http://localhost:5200/api/auth';
 
   private loginUrl = `${this.authUrl}/login`;
-  // private loginWithGoogleUrl = `${this.authUrl}/google`;
 
   private registerUrl = `${this.authUrl}/signup`;
   private logoutUrl = `${this.authUrl}/logout`;
 
-  private authenticatedUserUrl = `${this.authUrl}/authenticatedUser`;
   private checkAuthStatusUrl = `${this.authUrl}/checkAuthStatus`;
   private checkIsAuthenticatedUrl = `${this.authUrl}/isAuthenticated`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   login(loginForm: LoginForm) {
-    return this.http.post(this.loginUrl, loginForm, {
-      withCredentials: true,
-    });
+    this.http
+      .post<PublicUser>(this.loginUrl, loginForm, {
+        withCredentials: true,
+      })
+      .subscribe({
+        next: (response) => {
+          this.authenticatedUser.set(response);
+          this.router.navigateByUrl('/');
+        },
+        error: (error) => {
+          console.log('Login failed: ', error);
+        },
+      });
   }
 
   register(registerForm: RegisterForm) {
