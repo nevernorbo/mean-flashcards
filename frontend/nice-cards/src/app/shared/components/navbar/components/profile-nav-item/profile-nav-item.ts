@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   ElementRef,
+  OnInit,
   Renderer2,
   Signal,
   signal,
@@ -10,21 +11,29 @@ import {
 import { Router } from '@angular/router';
 import { PublicUser } from '@core/auth/models/user.interface';
 import { AuthService } from '@core/auth/services/auth.service';
+import { ProfileService } from '@features/profile/service/profile.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
-import { LogOut, LucideAngularModule, User, UserCog } from 'lucide-angular';
+import {
+  LogOut,
+  LucideAngularModule,
+  User,
+  UserCog,
+  UserPen,
+} from 'lucide-angular';
 
 @Component({
   selector: 'profile-nav-item',
   imports: [LucideAngularModule, ButtonComponent],
   templateUrl: 'profile-nav-item.component.html',
 })
-export class ProfileNavItemComponent {
-  userPreview: Signal<PublicUser | null>;
+export class ProfileNavItemComponent implements OnInit {
+  userPreview = signal<PublicUser | null>(null);
   dropdownOpen = signal(false);
 
   readonly User = User;
   readonly LogOut = LogOut;
   readonly UserCog = UserCog;
+  readonly UserPen = UserPen;
 
   @ViewChild('menu') menu!: ElementRef;
   @ViewChild('toggleButton') toggleButton!: ElementRef;
@@ -32,10 +41,9 @@ export class ProfileNavItemComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
+    private profileService: ProfileService,
     private renderer: Renderer2
   ) {
-    this.userPreview = computed(() => this.authService.authenticatedUser());
-
     // Close the dropdown panel if the user clicks outside of it
     this.renderer.listen('window', 'click', (e: Event) => {
       if (
@@ -48,24 +56,28 @@ export class ProfileNavItemComponent {
     });
   }
 
+  ngOnInit() {
+    this.userPreview = this.profileService.$user;
+    this.profileService.fetchUser(this.authService.authenticatedUser()!._id);
+  }
+
   toggleDropdown() {
     this.dropdownOpen.set(!this.dropdownOpen());
   }
 
   handleLogout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        this.authService.isAuthenticated.set(false);
-        this.authService.authenticatedUser.set(null);
-        this.router.navigateByUrl('/');
-      },
-      error: (error) => {
-        console.log('Error logging out: ', error);
-      },
-    });
+    this.authService.logout();
   }
 
   adminPageClicked() {
     this.router.navigateByUrl('/admin');
+  }
+
+  profilePageClicked() {
+    if (this.authService.authenticatedUser()?._id) {
+      this.router.navigateByUrl(
+        `/profile/${this.authService.authenticatedUser()?._id}`
+      );
+    }
   }
 }

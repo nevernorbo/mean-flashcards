@@ -1,0 +1,79 @@
+<form
+  class="flex w-full flex-col gap-5 md:w-[900px]"
+  [formGroup]="editProfileForm"
+  (submit)="saveClicked()"
+>
+  <div
+    class="flex items-center justify-between gap-4 rounded-md bg-skin-color-surface-pop p-5"
+  >
+    @if (user()?.profile?.avatarUrl) {
+      <img
+        class="size-16 rounded-full md:size-20"
+        [src]="user()?.profile?.avatarUrl"
+        alt="avatar"
+      />
+    } @else {
+      <div
+        class="flex size-16 items-center justify-center rounded-full bg-skin-color-surface/70 md:size-20"
+      >
+        <lucide-icon class="size-16" [img]="User"></lucide-icon>
+      </div>
+    }
+
+    <input
+      formControlName="username"
+      class="max-w-96 grow rounded-md bg-skin-color-surface-pop px-2 text-2xl font-semibold text-skin-base focus:border-skin-color-primary focus:ring-skin-color-primary"
+      type="text"
+    />
+  </div>
+
+  <div
+    class="flex flex-col gap-3 rounded-md bg-skin-color-surface-pop p-3 text-skin-base/80"
+  >
+    <div
+      class="flex w-full justify-between gap-4 rounded-md bg-skin-color-surface/50 p-2 hover:bg-skin-color-surface/70"
+    >
+      <span class="underline decoration-orange-500">Email</span>
+
+      <input
+        formControlName="email"
+        class="max-w-96 grow rounded-md bg-skin-color-surface-pop p-0 px-2 text-skin-base focus:border-skin-color-primary focus:ring-skin-color-primary"
+        type="email"
+      />
+    </div>
+    <div
+      class="flex w-full flex-col justify-between gap-4 rounded-md bg-skin-color-surface/50 p-2 hover:bg-skin-color-surface/70"
+    >
+      <div class="underline decoration-orange-500">Bio</div>
+
+      <textarea
+        formControlName="bio"
+        class="h-full w-full grow rounded-md bg-skin-color-surface-pop p-2 px-2 text-skin-base focus:border-skin-color-primary focus:ring-skin-color-primary"
+      ></textarea>
+    </div>
+    <div
+      class="flex w-full justify-between gap-4 rounded-md bg-skin-color-surface/50 p-2 hover:bg-skin-color-surface/70"
+    >
+      <span class="underline decoration-orange-500">Avatar URL</span>
+      <input
+        formControlName="avatarUrl"
+        class="max-w-96 grow rounded-md bg-skin-color-surface-pop p-0 px-2 text-skin-base focus:border-skin-color-primary focus:ring-skin-color-primary"
+        type="text"
+      />
+    </div>
+  </div>
+
+  @if (isOwnProfile()) {
+    <div class="flex gap-5 rounded-md bg-skin-color-surface-pop p-3">
+      <button class="w-full" nice-button>Save</button>
+      <button
+        type="button"
+        class="w-full"
+        nice-outlined-button
+        (click)="cancelClicked()"
+      >
+        Cancel
+      </button>
+    </div>
+  }
+</form>

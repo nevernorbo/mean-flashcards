@@ -29,6 +29,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'profile/:id',
+    loadComponent: () =>
+      import('@features/profile/pages/profile.component').then(
+        (c) => c.ProfileComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
     path: 'admin',
     loadComponent: () =>
       import('@features/admin/pages/admin.component').then(

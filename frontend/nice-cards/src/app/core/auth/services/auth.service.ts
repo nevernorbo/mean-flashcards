@@ -50,11 +50,18 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post(
-      this.logoutUrl,
-      {},
-      { withCredentials: true, responseType: 'text' }
-    );
+    this.http
+      .post(this.logoutUrl, {}, { withCredentials: true, responseType: 'text' })
+      .subscribe({
+        next: () => {
+          this.isAuthenticated.set(false);
+          this.authenticatedUser.set(null);
+          this.router.navigateByUrl('/');
+        },
+        error: (error) => {
+          console.log('Error logging out: ', error);
+        },
+      });
   }
 
   checkAuthStatus() {

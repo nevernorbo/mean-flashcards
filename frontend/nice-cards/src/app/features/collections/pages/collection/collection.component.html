@@ -1,7 +1,5 @@
 <main style="height: calc(100dvh - 3.6rem)" class="p-4">
-  <!-- Two panes -->
   <div class="flex h-full flex-col gap-4 md:flex-row">
-    <!-- When details are shown: First pane: title + toggle details button + edit button -->
     <div
       class="flex flex-col gap-1 rounded-lg bg-skin-color-surface-pop/50 p-4 md:w-1/3"
     >
@@ -12,7 +10,6 @@
           {{ cardCollection().title }}
         </h2>
       </div>
-      <!-- First pane: creator + date created + summary + likes -->
       <div class="flex justify-between text-sm text-skin-faint">
         {{ cardCollection().creationDate | date }}
       </div>
@@ -24,7 +21,11 @@
 
       @if (userCanEdit()) {
         <div class="grid grid-flow-row grid-cols-2 gap-2">
-          <button class="flex py-2" nice-button (click)="editCollectionClicked()">
+          <button
+            class="flex py-2"
+            nice-button
+            (click)="editCollectionClicked()"
+          >
             <lucide-icon [img]="Pencil" />
             <span>Edit Details</span>
           </button>
@@ -39,7 +40,6 @@
         </div>
       }
 
-      <!-- Flashcard quick navigation -->
       <div class="overflow-y-auto rounded-md bg-skin-color-surface-pop p-2">
         <div class="mb-2 text-lg underline decoration-orange-500">
           Quick navigation
@@ -67,7 +67,7 @@
         }
       </div>
     </div>
-    <!-- When details are hidden Second pane: title + toggle details button + edit button -->
+
     <div class="grow rounded-lg bg-skin-color-surface-pop/50 p-4">
       @if (editing() === 'create') {
         <edit-flash-card (finishedEditing)="finishEditing()"></edit-flash-card>

@@ -14,10 +14,11 @@ import { Router } from '@angular/router';
 import { CardCollection } from '@features/collections/models/card.interface';
 import { CollectionService } from '@features/collections/services/collection.service';
 import { Heart, User, LucideAngularModule } from 'lucide-angular';
+import { CollectionCardSkeletonComponent } from './card-skeleton.component';
 
 @Component({
   selector: 'collection-card',
-  imports: [LucideAngularModule, DatePipe],
+  imports: [LucideAngularModule, DatePipe, CollectionCardSkeletonComponent],
   templateUrl: './card.component.html',
 })
 export class CollectionCardComponent implements OnInit {
@@ -79,5 +80,11 @@ export class CollectionCardComponent implements OnInit {
           console.error('Error trying to get creator avatar: ', error);
         },
       });
+  }
+
+  viewProfileClicked(event: MouseEvent) {
+    this.router.navigateByUrl(`/profile/${this.cardCollection().ownerId}`);
+
+    event.stopPropagation();
   }
 }

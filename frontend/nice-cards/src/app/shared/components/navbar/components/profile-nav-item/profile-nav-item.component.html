@@ -1,46 +1,55 @@
 <div class="align-center flex">
-    @if (userPreview()?.role === 'admin') {
-      <div class="m-auto" nice-button (click)="adminPageClicked()">
-        <lucide-icon [img]="UserCog"></lucide-icon>
-        <div>Admin page</div>
-      </div>
-    }
+  @if (userPreview()?.role === 'admin') {
+    <div class="m-auto" nice-button (click)="adminPageClicked()">
+      <lucide-icon [img]="UserCog"></lucide-icon>
+      <div>Admin page</div>
+    </div>
+  }
 
-    <button
-      #toggleButton
-      class="m-2 cursor-pointer items-center justify-center rounded-full bg-skin-color-surface-pop bg-origin-border text-skin-muted ring-skin-color-primary hover:text-skin-base focus:ring-2"
-      (click)="toggleDropdown()"
-    >
-      @if (userPreview()?.profile?.avatarUrl) {
-        <img
-          [src]="userPreview()?.profile?.avatarUrl"
-          alt="avatar"
-          class="size-10 rounded-full p-1"
-        />
-      } @else {
-        <div class="p-2">
-          <lucide-icon [img]="User"></lucide-icon>
-        </div>
-      }
-    </button>
-    @if (dropdownOpen()) {
-      <div
-        #menu
-        class="absolute right-0 top-0 flex translate-y-1/2 flex-col items-start rounded-md border-2 border-skin-color-primary bg-skin-color-surface-pop p-4 shadow-sm"
-      >
-        <div class="mb-2 flex border-b border-skin-color-faintest py-2">
-          <div class="mr-3 text-nowrap text-skin-muted">Logged in as</div>
-          <div class="max-w-28 truncate">
-            {{ userPreview()?.profile?.username }}
-          </div>
-        </div>
-        <button
-          (click)="handleLogout()"
-          class="border-1 flex w-full items-center justify-center rounded-md bg-skin-color-surface/85 py-1 text-center shadow-sm hover:border-skin-color-primary hover:bg-skin-color-faintest"
-        >
-          <lucide-icon [img]="LogOut" size="18"></lucide-icon>
-          <span class="ml-4"> Logout </span>
-        </button>
+  <button
+    #toggleButton
+    class="m-2 cursor-pointer items-center justify-center rounded-full bg-skin-color-surface-pop bg-origin-border text-skin-muted ring-skin-color-primary hover:text-skin-base focus:ring-2"
+    (click)="toggleDropdown()"
+  >
+    @if (userPreview()?.profile?.avatarUrl) {
+      <img
+        [src]="userPreview()?.profile?.avatarUrl"
+        alt="avatar"
+        class="size-10 rounded-full p-1"
+      />
+    } @else {
+      <div class="p-2">
+        <lucide-icon [img]="User"></lucide-icon>
       </div>
     }
-  </div>
+  </button>
+  @if (dropdownOpen()) {
+    <div
+      #menu
+      class="absolute right-0 top-0 flex translate-y-1/2 flex-col items-start rounded-md border-2 border-skin-color-primary bg-skin-color-surface-pop p-4 shadow-sm"
+    >
+      <div class="mb-2 flex border-b border-skin-color-faintest py-2">
+        <div class="mr-3 text-nowrap text-skin-muted">Logged in as</div>
+        <div class="max-w-28 truncate">
+          {{ userPreview()?.profile?.username }}
+        </div>
+      </div>
+
+      <button
+        (click)="profilePageClicked()"
+        class="border-1 mb-2 flex w-full items-center justify-center rounded-md bg-skin-color-primary/80 py-1 text-center shadow-sm hover:border-skin-color-primary hover:bg-skin-color-primary"
+      >
+        <lucide-icon [img]="UserPen" size="18"></lucide-icon>
+        <span class="ml-4"> Profile </span>
+      </button>
+
+      <button
+        (click)="handleLogout()"
+        class="border-1 flex w-full items-center justify-center rounded-md bg-skin-color-surface/85 py-1 text-center shadow-sm hover:border-skin-color-primary hover:bg-skin-color-faintest"
+      >
+        <lucide-icon [img]="LogOut" size="18"></lucide-icon>
+        <span class="ml-4"> Logout </span>
+      </button>
+    </div>
+  }
+</div>
