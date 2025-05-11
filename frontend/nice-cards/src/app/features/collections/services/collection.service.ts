@@ -44,10 +44,14 @@ export class CollectionService {
 
   toggleLikeCollection(isLiked: boolean, id: string) {
     this.httpClient
-      .post(`${this.url}/card-collection/like`, { isLiked: isLiked, id: id }, {
-        withCredentials: true,
-        responseType: 'text',
-      })
+      .post(
+        `${this.url}/card-collection/like`,
+        { isLiked: isLiked, id: id },
+        {
+          withCredentials: true,
+          responseType: 'text',
+        }
+      )
       .subscribe({
         next: (response) => {
           console.log(response);
@@ -86,6 +90,16 @@ export class CollectionService {
   deleteCardCollection() {
     return this.httpClient.delete(
       `${this.url}/card-collection/${this.cardCollection$()._id}`,
+      {
+        responseType: 'text',
+        withCredentials: true,
+      }
+    );
+  }
+
+  fetchOwnerAvatar(ownerId: string) {
+    return this.httpClient.get(
+      `${this.url}/card-collection/ownerAvatar/${ownerId}`,
       {
         responseType: 'text',
         withCredentials: true,

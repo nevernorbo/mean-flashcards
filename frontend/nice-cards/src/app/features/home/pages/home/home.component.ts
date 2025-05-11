@@ -14,7 +14,6 @@ export class HomeComponent {
         next: (response) => {
           this.authService.isAuthenticated.set(response.isAuthenticated);
           this.authService.authenticatedUser.set(response.user);
-          console.log(this.authService.authenticatedUser());
         },
         error: (error) => {
           console.log('Failed to check authentication status: ', error);

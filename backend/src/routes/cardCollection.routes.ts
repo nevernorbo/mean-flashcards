@@ -138,6 +138,24 @@ cardCollectionRouter.post("/like", isAuthenticated, async (req, res) => {
     }
 });
 
+// Get owner avatar
+cardCollectionRouter.get("/ownerAvatar/:ownerId", isAuthenticated, async (req, res) => {
+    try {
+        const ownerId = new ObjectId(req?.params?.ownerId);
+
+        const user = await collections?.users?.findOne(
+            { _id: ownerId },
+            { projection: { "profile.avatarUrl": 1, _id: 0 } }
+        );
+        
+        const avatarUrl: string | undefined = user?.profile?.avatarUrl;
+
+        res.status(200).send(avatarUrl);
+    } catch (error) {
+        res.status(500).send(error instanceof Error ? error.message : "Unknown error");
+    }
+});
+
 export const checkPermission = async (user: User, id: ObjectId): Promise<boolean> => {
     // Fetch the collection to check ownership
     const collection = await collections?.cardCollections?.findOne({ _id: id });

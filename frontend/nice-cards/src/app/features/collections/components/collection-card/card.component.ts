@@ -1,21 +1,34 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, input, InputSignal } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  computed,
+  input,
+  InputSignal,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { CardCollection } from '@features/collections/models/card.interface';
 import { CollectionService } from '@features/collections/services/collection.service';
-import { Heart, LucideAngularModule } from 'lucide-angular';
+import { Heart, User, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'collection-card',
   imports: [LucideAngularModule, DatePipe],
   templateUrl: './card.component.html',
 })
-export class CollectionCardComponent {
+export class CollectionCardComponent implements OnInit {
   readonly Heart = Heart;
+  readonly User = User;
 
   currentUserId = input('');
   cardCollection: InputSignal<CardCollection> = input({} as CardCollection);
   isSkeletonLoader = input(false);
+
+  ownerAvatarUrl = signal<string>('');
 
   isLiked = computed(() => {
     const cardCollectionId = this.cardCollection()._id;
@@ -35,13 +48,17 @@ export class CollectionCardComponent {
     private collectionService: CollectionService
   ) {}
 
+  ngOnInit(): void {
+    if (this.cardCollection().ownerId) {
+      this.getOwnerAvatar();
+    }
+  }
+
   openCollection() {
     this.router.navigateByUrl(`/collection/${this.cardCollection()._id}`);
   }
 
   toggleLikeCollection(event: MouseEvent) {
-    console.log('Like clicked');
-
     this.collectionService.toggleLikeCollection(
       this.isLiked(),
       this.cardCollection()._id!
@@ -49,5 +66,18 @@ export class CollectionCardComponent {
 
     // Do not accidentally open the collection when the user clicks the like button
     event.stopPropagation();
+  }
+
+  getOwnerAvatar() {
+    this.collectionService
+      .fetchOwnerAvatar(this.cardCollection().ownerId)
+      .subscribe({
+        next: (response) => {
+          this.ownerAvatarUrl.set(response);
+        },
+        error: (error) => {
+          console.error('Error trying to get creator avatar: ', error);
+        },
+      });
   }
 }

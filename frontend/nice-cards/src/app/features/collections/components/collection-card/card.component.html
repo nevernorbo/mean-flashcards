@@ -17,11 +17,18 @@
       </div>
       <!-- Creator -->
       <div class="group py-1">
-        <img
-          src="./favicon.ico"
-          alt="user"
-          class="size-8 rounded-full ring-skin-color-primary group-hover:ring-2"
-        />
+        @if (ownerAvatarUrl()) {
+          <img
+            [src]="ownerAvatarUrl()"
+            alt="user"
+            class="size-8 rounded-full"
+          />
+        } @else {
+          <lucide-icon
+            class="size-8 rounded-full bg-skin-color-surface/90"
+            [img]="User"
+          />
+        }
       </div>
     </div>
 
