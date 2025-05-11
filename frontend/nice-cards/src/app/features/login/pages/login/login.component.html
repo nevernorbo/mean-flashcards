@@ -1,7 +1,11 @@
 <div class="mt-12 flex grow items-center justify-center self-start">
   <div class="mx-4 flex shrink grow flex-col gap-4 md:max-w-2xl">
     <h2 class="my-2 text-wrap text-center text-2xl">Sign in to your account</h2>
-    <form [formGroup]="loginForm" (submit)="handleSubmit()" class="flex flex-col gap-4">
+    <form
+      [formGroup]="loginForm"
+      (submit)="handleSubmit()"
+      class="flex flex-col gap-4"
+    >
       <form-input
         [id]="'email'"
         [name]="'email'"
@@ -22,5 +26,14 @@
     </form>
 
     <single-sign-on-options />
+
+    <div class="self-center text-skin-muted">
+      Don't have an account yet?
+      <a
+        class="text-skin-base underline decoration-orange-500 decoration-2"
+        href="register"
+        >Sign up</a
+      >
+    </div>
   </div>
 </div>

@@ -2,9 +2,9 @@ import { NgClass } from '@angular/common';
 import { Component, computed, OnInit, Signal, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, Menu, Spade, X } from 'lucide-angular';
-import { ToggleThemeButtonComponent } from './components/toggle-theme-button';
+import { ToggleThemeButtonComponent } from './components/toggle-theme-button/toggle-theme-button';
 import { AuthService } from '@core/auth/services/auth.service';
-import { ProfileNavItemComponent } from "./components/profile-nav-item";
+import { ProfileNavItemComponent } from "./components/profile-nav-item/profile-nav-item";
 
 @Component({
   selector: 'app-navbar',

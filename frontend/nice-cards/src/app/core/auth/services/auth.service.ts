@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   checkAuthStatus() {
-    return this.http.get<{ isAuthenticated: boolean; user: any }>(
+    return this.http.get<{ isAuthenticated: boolean; user: PublicUser }>(
       this.checkAuthStatusUrl,
       {
         withCredentials: true,
@@ -70,5 +70,12 @@ export class AuthService {
     return this.http.get<boolean>(this.checkIsAuthenticatedUrl, {
       withCredentials: true,
     });
+  }
+
+  isModeratorOrAdmin() {
+    return (
+      this.authenticatedUser()?.role === 'admin' ||
+      this.authenticatedUser()?.role === 'moderator'
+    );
   }
 }

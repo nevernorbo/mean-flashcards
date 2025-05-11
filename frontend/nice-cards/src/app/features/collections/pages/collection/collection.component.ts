@@ -45,6 +45,7 @@ export class CollectionComponent implements OnInit {
 
   userCanEdit = computed<boolean>(() => {
     if (
+      this.authService.isModeratorOrAdmin() ||
       this.authService.authenticatedUser()?._id ===
       this.cardCollection().ownerId
     ) {

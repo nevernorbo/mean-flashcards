@@ -1,0 +1,49 @@
+<main class="relative m-8 overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-left text-sm dark:text-gray-400 rtl:text-right">
+    <thead
+      class="text-md bg-skin-color-surface-pop/60 uppercase text-skin-muted"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">Username</th>
+        <th scope="col" class="px-6 py-3">Email</th>
+        <th scope="col" class="px-6 py-3">Created on</th>
+        <th scope="col" class="px-6 py-3">Role</th>
+        <th scope="col" class="px-6 py-3">
+          <span class="sr-only">Delete</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users$(); track user._id) {
+        <tr
+          class="border-b border-skin-color-faintest bg-skin-color-surface-pop/40 hover:bg-skin-color-surface-pop"
+        >
+          <th
+            scope="row"
+            class="whitespace-nowrap px-6 py-4 font-medium text-skin-base/80"
+          >
+            {{ user.profile.username }}
+          </th>
+          <td class="px-6 py-4">{{ user.email }}</td>
+          <td class="px-6 py-4">{{ user.profile.createdAt | date }}</td>
+          <td class="px-6 py-4">
+            <select
+              (change)="selectChanged(user._id, $event)"
+              id="roles"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            >
+              <option value="user" [selected]="user.role === 'user'">User</option>
+              <option value="moderator" [selected]="user.role === 'moderator'">Moderator</option>
+              <option value="admin" [selected]="user.role === 'admin'">Admin</option>
+            </select>
+          </td>
+          <td class="px-6 py-4 text-right text-skin-base">
+            <button nice-button (click)="deleteUser(user._id)">
+              <div>Delete</div>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</main>
