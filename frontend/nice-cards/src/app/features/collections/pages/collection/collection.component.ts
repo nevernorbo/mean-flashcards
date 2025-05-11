@@ -13,7 +13,8 @@ import { LucideAngularModule, Pencil, Trash } from 'lucide-angular';
 import { EditFlashCardComponent } from '../../components/edit-flash-card/edit-flash-card.component';
 import { FlashCardsComponent } from '../../components/flash-cards/flash-cards.component';
 import { OutlinedButtonComponent } from '@shared/components/button/outlined-button.component';
-import { ConfirmPopupComponent } from "@shared/components/confirm-popup/confirm-popup";
+import { ConfirmPopupComponent } from '@shared/components/confirm-popup/confirm-popup';
+import { EditCollectionPopupComponent } from '../edit-collection/edit-collection.component';
 
 @Component({
   selector: 'card-collection',
@@ -25,8 +26,9 @@ import { ConfirmPopupComponent } from "@shared/components/confirm-popup/confirm-
     OutlinedButtonComponent,
     EditFlashCardComponent,
     NgClass,
-    ConfirmPopupComponent
-],
+    ConfirmPopupComponent,
+    EditCollectionPopupComponent,
+  ],
   templateUrl: 'collection.component.html',
 })
 export class CollectionComponent implements OnInit {
@@ -39,6 +41,7 @@ export class CollectionComponent implements OnInit {
 
   editing = signal<'create' | 'edit' | false>(false);
   showDeletePopup = signal<boolean>(false);
+  showEditCollectionPopup = signal<boolean>(false);
 
   userCanEdit = computed<boolean>(() => {
     if (
@@ -110,11 +113,19 @@ export class CollectionComponent implements OnInit {
     this.showDeletePopup.set(false);
   }
 
+  editCollectionClicked() {
+    this.showEditCollectionPopup.set(true);
+  }
+
+  editCollectionPopupClosed() {
+    this.showEditCollectionPopup.set(false);
+  }
+
   delete() {
     this.collectionService.deleteCardCollection().subscribe({
       next: (response) => {
         this.showDeletePopup.set(false);
-        this.router.navigateByUrl("/collections");
+        this.router.navigateByUrl('/collections');
 
         console.log('Successfully deleted a card: ', response);
       },

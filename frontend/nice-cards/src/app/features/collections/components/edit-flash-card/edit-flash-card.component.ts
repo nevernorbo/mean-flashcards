@@ -61,6 +61,7 @@ export class EditFlashCardComponent implements OnInit {
     this.cardService.createCard(card).subscribe({
       next: (response) => {
         this.cardService.currentCard$.set(card);
+        this.cardService.getCards();
         this.finishEditing();
         console.log('Successfully created new card', response);
       },

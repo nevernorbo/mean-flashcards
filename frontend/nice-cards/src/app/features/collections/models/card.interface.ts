@@ -24,3 +24,9 @@ export interface CreateNewCollectionForm {
   title: string;
   visibility: CardCollectionVisibility;
 }
+
+export interface EditCollectionForm {
+  title: string;
+  summary: string;
+  visibility: CardCollectionVisibility;
+}

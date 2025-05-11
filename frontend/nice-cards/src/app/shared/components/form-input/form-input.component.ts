@@ -26,12 +26,13 @@ import {
     @if (formControl) {
       <div class="relative">
         <input
-          [id]="id()"
+          [id]="id()" 
           [name]="name()"
           [type]="type()"
           [required]="required()"
           [placeholder]="placeholder()"
           [formControl]="formControl"
+          [style]="style()"
           class="peer w-full rounded-md border-skin-color-faintest bg-skin-color-surface text-skin-base placeholder-transparent shadow-sm placeholder:select-none focus:border-skin-color-primary focus:ring-0"
           [ngClass]="{
             'border required:border-red-500':
@@ -75,6 +76,7 @@ export class FormInputComponent implements OnInit, ControlValueAccessor {
   type = input('');
   required = input(false);
   placeholder = input('');
+  style = input('');
 
   formControl!: FormControl;
   onTouched: any;

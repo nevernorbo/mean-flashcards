@@ -62,7 +62,7 @@ export class FlashCardsComponent implements OnInit {
   });
 
   hasPreviousCard = computed<boolean>(() => {
-    if (this.currentCard() && this.currentCard().order > 1) {
+    if (this.currentCard() && this.currentCard()?.order > 1) {
       return true;
     }
 

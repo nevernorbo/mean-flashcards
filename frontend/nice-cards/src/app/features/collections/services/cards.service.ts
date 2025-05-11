@@ -25,8 +25,8 @@ export class CardService {
         this.cards$.set(cards);
 
         if (
-          ignoreCurrentCard ||
-          (this.isEmpty(this.currentCard$()))
+          cards.length > 0 &&
+          (ignoreCurrentCard || this.isEmpty(this.currentCard$()))
         ) {
           this.currentCard$.set(cards[0]);
         }

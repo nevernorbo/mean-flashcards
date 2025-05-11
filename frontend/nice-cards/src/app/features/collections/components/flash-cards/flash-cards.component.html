@@ -72,28 +72,30 @@
           Add new card at the end
         </div>
       </div>
-      <div
-        (click)="edit()"
-        class="group relative flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-skin-color-surface/70 hover:text-yellow-400"
-      >
-        <lucide-icon [img]="Pencil" />
+      @if (currentCard().order) {
         <div
-          class="absolute left-1/2 top-full mt-2 hidden w-max -translate-x-1/2 transform rounded bg-skin-color-surface-pop px-2 py-1 text-sm shadow-lg group-hover:block"
+          (click)="edit()"
+          class="group relative flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-skin-color-surface/70 hover:text-yellow-400"
         >
-          Edit card
+          <lucide-icon [img]="Pencil" />
+          <div
+            class="absolute left-1/2 top-full mt-2 hidden w-max -translate-x-1/2 transform rounded bg-skin-color-surface-pop px-2 py-1 text-sm shadow-lg group-hover:block"
+          >
+            Edit card
+          </div>
         </div>
-      </div>
-      <div
-        (click)="deleteClicked()"
-        class="group relative flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-skin-color-surface/70 hover:text-red-500"
-      >
-        <lucide-icon [img]="X" />
         <div
-          class="absolute left-1/2 top-full mt-2 hidden w-max -translate-x-1/2 transform rounded bg-skin-color-surface-pop px-2 py-1 text-sm shadow-lg group-hover:block"
+          (click)="deleteClicked()"
+          class="group relative flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-skin-color-surface/70 hover:text-red-500"
         >
-          Delete card
+          <lucide-icon [img]="X" />
+          <div
+            class="absolute left-1/2 top-full mt-2 hidden w-max -translate-x-1/2 transform rounded bg-skin-color-surface-pop px-2 py-1 text-sm shadow-lg group-hover:block"
+          >
+            Delete card
+          </div>
         </div>
-      </div>
+      }
     </div>
   }
 </div>

@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import {
   CardCollection,
   CreateNewCollectionForm,
+  EditCollectionForm,
 } from '../models/card.interface';
 import { HttpClient } from '@angular/common/http';
 
@@ -52,12 +53,11 @@ export class CollectionService {
     );
   }
 
-  // TODO update collection info
-  updateCardCollection(cardCollection: CardCollection) {
+  updateCardCollection(editCollectionForm: EditCollectionForm) {
     return this.httpClient.patch(
       `${this.url}/card-collection/${this.cardCollection$()._id}`,
-      cardCollection,
-      { responseType: 'text', withCredentials: true }
+      editCollectionForm,
+      { withCredentials: true }
     );
   }
 

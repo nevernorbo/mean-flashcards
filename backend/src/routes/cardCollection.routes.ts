@@ -58,7 +58,7 @@ cardCollectionRouter.get("/:id", isAuthenticated, async (req, res) => {
     }
 });
 
-// Delete card from collection
+// Delete collection
 cardCollectionRouter.delete("/:collectionId", isAuthenticated, async (req, res) => {
     try {
         const id = new ObjectId(req?.params?.collectionId);
@@ -70,11 +70,11 @@ cardCollectionRouter.delete("/:collectionId", isAuthenticated, async (req, res) 
     }
 });
 
-// Update existing card
-cardCollectionRouter.patch("/:collectionId/:order", isAuthenticated, async (req, res) => {
+// Update existing collection
+cardCollectionRouter.patch("/:collectionId", isAuthenticated, async (req, res) => {
     try {
         const id = new ObjectId(req?.params?.collectionId);
-        const { title, summary } = req.body;
+        const { title, summary, visibility } = req.body;
 
         const response = await collections?.cardCollections?.updateOne(
             {
@@ -84,6 +84,7 @@ cardCollectionRouter.patch("/:collectionId/:order", isAuthenticated, async (req,
                 $set: {
                     title: title,
                     summary: summary,
+                    visibility: visibility,
                 },
             }
         );

@@ -24,11 +24,15 @@
 
       @if (userCanEdit()) {
         <div class="grid grid-flow-row grid-cols-2 gap-2">
-          <button class="flex py-2" nice-button>
+          <button class="flex py-2" nice-button (click)="editCollectionClicked()">
             <lucide-icon [img]="Pencil" />
             <span>Edit Details</span>
           </button>
-          <button class="flex py-2" nice-outlined-button (click)="deleteClicked()">
+          <button
+            class="flex py-2"
+            nice-outlined-button
+            (click)="deleteClicked()"
+          >
             <lucide-icon [img]="Trash" />
             <span>Delete collection</span>
           </button>
@@ -44,6 +48,7 @@
           <div
             (click)="quickNavigate(card)"
             class="my-0.5 flex w-full cursor-pointer items-center justify-between rounded-md px-2 py-0.5 transition-colors duration-150 odd:bg-skin-color-surface/60 even:bg-skin-color-surface/40 hover:text-skin-primary"
+            [title]="card.front"
           >
             <div
               class="mr-3 truncate"
@@ -91,4 +96,10 @@
     (popupConfirmed)="delete()"
     (popupClosed)="deleteCardPopupClosed()"
   ></confirm-popup>
+}
+
+@if (showEditCollectionPopup()) {
+  <edit-collection-popup
+    (popupClosed)="editCollectionPopupClosed()"
+  ></edit-collection-popup>
 }
