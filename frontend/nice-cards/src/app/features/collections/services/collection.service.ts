@@ -13,6 +13,7 @@ export class CollectionService {
   private url = 'http://localhost:5200/api';
 
   cardCollection$ = signal<CardCollection>({} as CardCollection);
+  likedCollections$ = signal<string[]>([]);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -30,11 +31,32 @@ export class CollectionService {
     );
   }
 
-  toggleLikeCollection(id: string) {
-    return this.httpClient.post(`${this.url}/card-collection/like`, id, {
-      withCredentials: true,
-      responseType: 'text',
-    });
+  // Will return the ids of liked collections
+  getLikedCardCollections() {
+    this.httpClient
+      .get<
+        string[]
+      >(`${this.url}/card-collections/liked`, { withCredentials: true })
+      .subscribe((likedCollectons) =>
+        this.likedCollections$.set(likedCollectons)
+      );
+  }
+
+  toggleLikeCollection(isLiked: boolean, id: string) {
+    this.httpClient
+      .post(`${this.url}/card-collection/like`, { isLiked: isLiked, id: id }, {
+        withCredentials: true,
+        responseType: 'text',
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.getLikedCardCollections();
+        },
+        error: (error) => {
+          console.log('Error toggling like collection: ', error);
+        },
+      });
   }
 
   getCardCollection(id: string) {

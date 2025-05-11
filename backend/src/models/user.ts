@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 
 export interface User {
     _id?: ObjectId;
-    role: "user" | "admin";
+    role: "user" | "moderator" | "admin";
     email: string;
     password?: string;
 

@@ -1,16 +1,16 @@
 import { Component, output, signal } from '@angular/core';
-import { CollectionCardComponent } from '../collection-card/card.component';
+import { AuthService } from '@core/auth/services/auth.service';
 import { CardCollection } from '@features/collections/models/card.interface';
 import { CollectionService } from '@features/collections/services/collection.service';
-import { AuthService } from '@core/auth/services/auth.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import {
-  LucideAngularModule,
   BookMarked,
-  LibraryBig,
   CirclePlus,
+  LibraryBig,
+  LucideAngularModule,
 } from 'lucide-angular';
-import { Router } from '@angular/router';
+import { forkJoin, timer } from 'rxjs';
+import { CollectionCardComponent } from '../collection-card/card.component';
 
 @Component({
   selector: 'collection-cards',
@@ -34,35 +34,41 @@ export class CollectionCardsComponent {
   fetchingForeignCollections = signal(true);
 
   constructor(
-    private router: Router,
     private authService: AuthService,
     private collectionService: CollectionService
   ) {
     this.currentUserId = this.authService.authenticatedUser()?._id ?? '';
 
-    this.collectionService.getOwnedCardCollections().subscribe({
-      next: (cardCollections) => {
+    // Set minimum skeleton display times with forkJoin
+    forkJoin([
+      this.collectionService.getOwnedCardCollections(),
+      timer(500),
+    ]).subscribe({
+      next: ([cardCollections]) => {
         this.ownedCardCollections$.set(cardCollections);
+        this.fetchingOwnedCollections.set(false);
       },
       error: (error) => {
-        console.log('Error trying to get card collections: ', error);
-      },
-      complete: () => {
+        console.error('Error trying to get owned card collections: ', error);
         this.fetchingOwnedCollections.set(false);
       },
     });
 
-    this.collectionService.getForeignCardCollections().subscribe({
-      next: (cardCollections) => {
+    forkJoin([
+      this.collectionService.getForeignCardCollections(),
+      timer(500),
+    ]).subscribe({
+      next: ([cardCollections]) => {
         this.foreignCardCollections$.set(cardCollections);
+        this.fetchingForeignCollections.set(false);
       },
       error: (error) => {
-        console.log('Error trying to get card collections: ', error);
-      },
-      complete: () => {
+        console.error('Error trying to get foreign card collections: ', error);
         this.fetchingForeignCollections.set(false);
       },
     });
+
+    this.collectionService.getLikedCardCollections();
   }
 
   handleCreateClicked() {

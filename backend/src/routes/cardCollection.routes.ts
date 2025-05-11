@@ -1,9 +1,9 @@
 import * as express from "express";
 import { collections } from "../database";
-import { ObjectId } from "mongodb";
 import { isAuthenticated } from "./auth.routes";
 import { User } from "../models/user";
 import { CardCollection } from "../models/card";
+import { ObjectId } from "mongodb";
 
 // Responsible for the endpoints regarding a single card collection
 export const cardCollectionRouter = express.Router();
@@ -61,7 +61,16 @@ cardCollectionRouter.get("/:id", isAuthenticated, async (req, res) => {
 // Delete collection
 cardCollectionRouter.delete("/:collectionId", isAuthenticated, async (req, res) => {
     try {
+        const user = req.user as User;
         const id = new ObjectId(req?.params?.collectionId);
+
+        const hasPermission = await checkPermission(user, id);
+
+        if (!hasPermission) {
+            res.status(403).send("You do not have permission to delete this collection");
+            return;
+        }
+
         const response = await collections?.cardCollections?.deleteOne({ _id: id });
 
         res.status(200).send(response);
@@ -73,7 +82,16 @@ cardCollectionRouter.delete("/:collectionId", isAuthenticated, async (req, res) 
 // Update existing collection
 cardCollectionRouter.patch("/:collectionId", isAuthenticated, async (req, res) => {
     try {
+        const user = req.user as User;
         const id = new ObjectId(req?.params?.collectionId);
+
+        const hasPermission = await checkPermission(user, id);
+
+        if (!hasPermission) {
+            res.status(403).send("You do not have permission to update this collection");
+            return;
+        }
+
         const { title, summary, visibility } = req.body;
 
         const response = await collections?.cardCollections?.updateOne(
@@ -96,15 +114,45 @@ cardCollectionRouter.patch("/:collectionId", isAuthenticated, async (req, res) =
 });
 
 // Like/unlike collection
-// cardCollectionRouter.post("/like", isAuthenticated, async (req, res) => {
-//     try {
+cardCollectionRouter.post("/like", isAuthenticated, async (req, res) => {
+    try {
+        const userId = (req.user as User)._id!.toString();
+        const { id, isLiked } = req.body;
 
-//         if (result?.acknowledged) {
-//             res.status(200).send("Success");
-//         } else {
-//             res.status(500).send("Failed to toggle like collection");
-//         }
-//     } catch (error) {
-//         res.status(404).send("Failed to toggle like collection");
-//     }
-// });
+        if (isLiked) {
+            const response = await collections?.likedCollections?.updateOne(
+                { _id: new ObjectId(id) },
+                { $pull: { likedBy: userId } }
+            );
+            res.status(200).send(response);
+        } else {
+            const response = await collections?.likedCollections?.updateOne(
+                { _id: new ObjectId(id) },
+                { $addToSet: { likedBy: userId } },
+                { upsert: true }
+            );
+            res.status(200).send(response);
+        }
+    } catch (error) {
+        res.status(500).send(error instanceof Error ? error.message : "Unknown error");
+    }
+});
+
+export const checkPermission = async (user: User, id: ObjectId): Promise<boolean> => {
+    // Fetch the collection to check ownership
+    const collection = await collections?.cardCollections?.findOne({ _id: id });
+
+    if (!collection) {
+        return false;
+    }
+
+    // Check permissions
+    const isOwner = collection.ownerId?.toString() === user._id?.toString();
+    const isModeratorOrAdmin = user.role === "moderator" || user.role === "admin";
+
+    if (!isOwner && !isModeratorOrAdmin) {
+        return false;
+    }
+
+    return true;
+};

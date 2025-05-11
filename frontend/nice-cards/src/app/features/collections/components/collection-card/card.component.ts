@@ -18,12 +18,16 @@ export class CollectionCardComponent {
   isSkeletonLoader = input(false);
 
   isLiked = computed(() => {
-    if (this.isSkeletonLoader()) {
-      return false;
+    const cardCollectionId = this.cardCollection()._id;
+
+    if (
+      cardCollectionId &&
+      this.collectionService.likedCollections$().includes(cardCollectionId)
+    ) {
+      return true;
     }
 
-    // TODO
-    return true;
+    return false;
   });
 
   constructor(
@@ -37,6 +41,11 @@ export class CollectionCardComponent {
 
   toggleLikeCollection(event: MouseEvent) {
     console.log('Like clicked');
+
+    this.collectionService.toggleLikeCollection(
+      this.isLiked(),
+      this.cardCollection()._id!
+    );
 
     // Do not accidentally open the collection when the user clicks the like button
     event.stopPropagation();

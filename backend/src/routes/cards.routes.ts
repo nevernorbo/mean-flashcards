@@ -2,6 +2,8 @@ import * as express from "express";
 import { collections } from "../database";
 import { isAuthenticated } from "./auth.routes";
 import { ObjectId } from "mongodb";
+import { User } from "../models/user";
+import { checkPermission } from "./cardCollection.routes";
 
 // Responsible for the endpoints regarding cards contained in a collection
 export const cardsRouter = express.Router();
@@ -22,8 +24,21 @@ cardsRouter.get("/:id", isAuthenticated, async (req, res) => {
 // Add a card to a collection
 cardsRouter.post("/:id", isAuthenticated, async (req, res) => {
     try {
-        const id = req?.params?.id;
-        const response = await collections?.cards?.updateOne({ _id: new ObjectId(id) }, { $push: { cards: req.body } });
+        const user = req.user as User;        
+        const id = new ObjectId(req?.params?.id);
+
+        const hasPermission = await checkPermission(user, id);
+
+        if (!hasPermission) {
+            res.status(403).send("You do not have permission to create cards on this collection");
+            return;
+        }
+
+        const response = await collections?.cards?.updateOne(
+            { _id: id },
+            { $push: { cards: req.body } },
+            { upsert: true }
+        );
 
         res.status(200).send(response);
     } catch (error) {
@@ -34,7 +49,16 @@ cardsRouter.post("/:id", isAuthenticated, async (req, res) => {
 // Delete card from collection
 cardsRouter.delete("/:collectionId/:order", isAuthenticated, async (req, res) => {
     try {
+        const user = req.user as User;
         const id = new ObjectId(req?.params?.collectionId);
+              
+        const hasPermission = await checkPermission(user, id);
+
+        if (!hasPermission) {
+            res.status(403).send("You do not have permission to delete cards on this collection");
+            return;
+        }
+
         const targetOrder = +req?.params?.order;
 
         // ...
@@ -82,7 +106,16 @@ cardsRouter.delete("/:collectionId/:order", isAuthenticated, async (req, res) =>
 // Update existing card
 cardsRouter.patch("/:collectionId/:order", isAuthenticated, async (req, res) => {
     try {
+        const user = req.user as User;
         const id = new ObjectId(req?.params?.collectionId);
+                
+        const hasPermission = await checkPermission(user, id);
+
+        if (!hasPermission) {
+            res.status(403).send("You do not have permission to update cards on this collection");
+            return;
+        }
+
         const targetOrder = +req?.params?.order;
 
         const { front, back } = req.body;

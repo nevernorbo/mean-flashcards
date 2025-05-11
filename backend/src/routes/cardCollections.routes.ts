@@ -12,7 +12,7 @@ cardCollectionsRouter.get("/owned", isAuthenticated, async (req, res) => {
     try {
         const userId = (req.user as User)._id;
         const cardCollections = await collections?.cardCollections
-            ?.find({ ownerId: userId }, { projection: { cards: 0 } })
+            ?.find({ ownerId: userId })
             .toArray();
         res.status(200).send(cardCollections);
     } catch (error) {
@@ -20,7 +20,7 @@ cardCollectionsRouter.get("/owned", isAuthenticated, async (req, res) => {
     }
 });
 
-// Get all foreign (not owned, public collections)
+// Get all foreign (not owned, public) collections
 cardCollectionsRouter.get("/foreign", isAuthenticated, async (req, res) => {
     try {
         const userId = (req.user as User)._id;
@@ -28,6 +28,26 @@ cardCollectionsRouter.get("/foreign", isAuthenticated, async (req, res) => {
             ?.find({ ownerId: { $ne: userId }, visibility: "public" })
             .toArray();
         res.status(200).send(cardCollections);
+    } catch (error) {
+        res.status(500).send(error instanceof Error ? error.message : "Unknown error");
+    }
+});
+
+// Get all liked collection
+cardCollectionsRouter.get("/liked", isAuthenticated, async (req, res) => {
+    try {
+        const userId = (req.user as User)._id?.toString();
+
+        const likedCollections = await collections?.likedCollections
+            ?.find({ likedBy: userId }, { projection: { _id: 1 } })
+            .toArray();
+
+        if (likedCollections) {
+            const likedCollectionIds = likedCollections.map((c) => c._id);
+            res.status(200).send(likedCollectionIds);
+        } else {
+            res.status(500).send("Failed to query liked collections");
+        }
     } catch (error) {
         res.status(500).send(error instanceof Error ? error.message : "Unknown error");
     }

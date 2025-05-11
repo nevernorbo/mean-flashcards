@@ -9,6 +9,11 @@ export interface CardCollection {
     visibility: CardCollectionVisibility;
 }
 
+export interface LikedCollection {
+    _id: ObjectId;
+    likedBy: string[];
+}
+
 export type CardCollectionVisibility = "private" | "public";
 
 export interface Cards {
