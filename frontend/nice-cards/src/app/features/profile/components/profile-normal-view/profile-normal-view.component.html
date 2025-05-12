@@ -4,9 +4,10 @@
   >
     @if (user()?.profile?.avatarUrl) {
       <img
-        class="size-16 rounded-full md:size-20"
+        class="size-16 rounded-full md:size-20 cursor-pointer"
         [src]="user()?.profile?.avatarUrl"
         alt="avatar"
+        (click)="openInNewTab(user()?.profile?.avatarUrl)"
       />
     } @else {
       <div

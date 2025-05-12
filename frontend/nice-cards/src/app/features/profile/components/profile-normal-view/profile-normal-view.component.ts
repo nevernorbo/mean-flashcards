@@ -1,8 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, input, output, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { PublicUser } from '@core/auth/models/user.interface';
-import { AuthService } from '@core/auth/services/auth.service';
 import { ProfileService } from '@features/profile/service/profile.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { OutlinedButtonComponent } from '@shared/components/button/outlined-button.component';
@@ -30,11 +28,7 @@ export class ProfileNormalViewComponent {
 
   showDeletePopup = signal<boolean>(false);
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private profileService: ProfileService
-  ) {}
+  constructor(private profileService: ProfileService) {}
 
   editClicked() {
     this.editingBegan.emit();
@@ -50,5 +44,11 @@ export class ProfileNormalViewComponent {
 
   deleteConfirmed() {
     this.profileService.deleteUser();
+  }
+
+  openInNewTab(url?: string) {
+    if (url) {
+      window.open(url, '_blank')?.focus();
+    }
   }
 }
