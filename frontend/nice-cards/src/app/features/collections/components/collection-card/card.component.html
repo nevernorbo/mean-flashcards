@@ -53,11 +53,22 @@
         class="flex cursor-pointer gap-1 rounded-full px-2 py-1 text-sm text-skin-muted hover:bg-skin-color-faintest/75 hover:text-skin-base"
       >
         @if (isLiked()) {
-          <lucide-icon class="size-4 text-red-500 *:fill-red-500" [img]="Heart"></lucide-icon>
+          <lucide-icon
+            class="size-4 text-red-500 *:fill-red-500"
+            [img]="Heart"
+          ></lucide-icon>
         } @else {
           <lucide-icon class="size-4" [img]="Heart"></lucide-icon>
         }
       </button>
+      @if (cardCollection().visibility === 'private') {
+        <div
+          class="flex items-center gap-1 rounded-full px-2 py-1 text-sm text-skin-muted hover:text-skin-base"
+          title="Private collection"
+        >
+          <lucide-icon class="size-4" [img]="Lock"></lucide-icon>
+        </div>
+      }
     </div>
   }
   <!-- Skeleton loader -->

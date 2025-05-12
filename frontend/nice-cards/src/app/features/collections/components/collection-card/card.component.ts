@@ -13,7 +13,7 @@ import {
 import { Router } from '@angular/router';
 import { CardCollection } from '@features/collections/models/card.interface';
 import { CollectionService } from '@features/collections/services/collection.service';
-import { Heart, User, LucideAngularModule } from 'lucide-angular';
+import { Heart, User, Lock, LucideAngularModule } from 'lucide-angular';
 import { CollectionCardSkeletonComponent } from './card-skeleton.component';
 
 @Component({
@@ -24,6 +24,7 @@ import { CollectionCardSkeletonComponent } from './card-skeleton.component';
 export class CollectionCardComponent implements OnInit {
   readonly Heart = Heart;
   readonly User = User;
+  readonly Lock = Lock;
 
   currentUserId = input('');
   cardCollection: InputSignal<CardCollection> = input({} as CardCollection);
