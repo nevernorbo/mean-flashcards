@@ -4,7 +4,7 @@
   [@.disabled]="animationDisabled()"
 >
   <div class="flashcard-side flashcard-front">
-    {{ card()?.front ? card()?.front : 'No front content' }}
+    {{ card().front ? card().front : 'No front content' }}
     <div
       class="absolute bottom-0 left-0 rounded-sm p-1 text-xs text-skin-muted"
     >
@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="flashcard-side flashcard-back">
-    {{ card()?.back ? card()?.back : 'No back content' }}
+    {{ card().back ? card().back : 'No back content' }}
     <div
       class="absolute bottom-0 left-0 rounded-sm p-1 text-xs text-skin-muted"
     >

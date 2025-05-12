@@ -1,5 +1,5 @@
 import { DatePipe, NgClass } from '@angular/common';
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@core/auth/services/auth.service';
 import {
@@ -32,7 +32,7 @@ import { EditCollectionPopupComponent } from '../edit-collection/edit-collection
   ],
   templateUrl: 'collection.component.html',
 })
-export class CollectionComponent implements OnInit {
+export class CollectionComponent implements OnInit, OnDestroy {
   readonly Pencil = Pencil;
   readonly Trash = Trash;
 
@@ -57,6 +57,10 @@ export class CollectionComponent implements OnInit {
 
   ngOnInit() {
     this.fetchCards();
+  }
+
+  ngOnDestroy() {
+    this.cardService.currentCard$.set({} as Card);
   }
 
   private fetchCards(): void {

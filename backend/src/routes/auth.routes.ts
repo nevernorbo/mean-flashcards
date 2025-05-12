@@ -15,7 +15,7 @@ authRouter.post("/signup", async (req, res) => {
 
         // Validate input
         const existingUser = await collections.users?.findOne({
-            $or: [{ username: username }, { email: email }],
+            $or: [{ "profile.username": username }, { email: email }],
         });
 
         if (existingUser) {

@@ -41,7 +41,6 @@ export class ProfileNavItemComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private profileService: ProfileService,
     private renderer: Renderer2
   ) {
     // Close the dropdown panel if the user clicks outside of it
@@ -57,8 +56,8 @@ export class ProfileNavItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userPreview = this.profileService.$user;
-    this.profileService.fetchUser(this.authService.authenticatedUser()!._id);
+    this.userPreview = this.authService.authenticatedUser;
+    this.authService.checkAuthStatus();
   }
 
   toggleDropdown() {

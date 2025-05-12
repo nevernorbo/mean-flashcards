@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { PublicUser } from '@core/auth/models/user.interface';
+import { AuthService } from '@core/auth/services/auth.service';
 import { EditProfileForm } from '@features/profile/models/profile';
 import { ProfileService } from '@features/profile/service/profile.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
@@ -35,7 +36,8 @@ export class ProfileEditingViewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private profileService: ProfileService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -55,6 +57,7 @@ export class ProfileEditingViewComponent implements OnInit {
         console.log(response);
         this.editingFinished.emit();
         this.profileService.fetchUser(this.user()!._id);
+        this.authService.checkAuthStatus(); // To refresh logged in user
         this.notificationService.show(response.successMessage, 'success');
       },
       error: (error) => {

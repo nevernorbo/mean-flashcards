@@ -1,10 +1,5 @@
 import { Component, input, OnInit, output } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Card } from '@features/collections/models/card.interface';
 import { CardService } from '@features/collections/services/cards.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
@@ -29,32 +24,31 @@ export class EditFlashCardComponent implements OnInit {
 
   isEdit = input<boolean>(false);
 
-  frontFormControl = new FormControl();
-  backFormControl = new FormControl();
-
   finishedEditing = output();
 
   constructor(
     private fb: FormBuilder,
     private cardService: CardService
-  ) {
-    this.editedCardForm = this.fb.group({
-      back: [''],
-      front: [''],
-    });
-  }
+  ) {}
 
   ngOnInit() {
     if (this.isEdit()) {
-      this.frontFormControl.setValue(this.cardService.currentCard$().front);
-      this.backFormControl.setValue(this.cardService.currentCard$().back);
+      this.editedCardForm = this.fb.group({
+        back: [this.cardService.currentCard$().front],
+        front: [this.cardService.currentCard$().back],
+      });
+    } else {
+      this.editedCardForm = this.fb.group({
+        back: [''],
+        front: [''],
+      });
     }
   }
 
   saveClickedCreate() {
     const card = {
-      front: this.frontFormControl.value,
-      back: this.backFormControl.value,
+      front: this.editedCardForm.value.front,
+      back: this.editedCardForm.value.back,
       order: this.cardService.cards$().length + 1,
     } as Card;
 
@@ -73,13 +67,16 @@ export class EditFlashCardComponent implements OnInit {
 
   saveClickedUpdate() {
     this.cardService
-      .updateCard(this.frontFormControl.value, this.backFormControl.value)
+      .updateCard(
+        this.editedCardForm.value.front,
+        this.editedCardForm.value.back
+      )
       .subscribe({
         next: (response) => {
           this.finishEditing();
           this.cardService.currentCard$.set({
-            front: this.frontFormControl.value,
-            back: this.backFormControl.value,
+            front: this.editedCardForm.value.front,
+            back: this.editedCardForm.value.back,
             order: this.cardService.currentCard$().order,
           });
           this.cardService.getCards();

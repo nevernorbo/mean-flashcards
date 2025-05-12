@@ -26,7 +26,7 @@ import { ConfirmPopupComponent } from '@shared/components/confirm-popup/confirm-
   imports: [LucideAngularModule, FlashCardComponent, ConfirmPopupComponent],
   templateUrl: './flash-cards.component.html',
 })
-export class FlashCardsComponent implements OnInit, OnDestroy {
+export class FlashCardsComponent implements OnInit {
   readonly CircleArrowLeft = CircleArrowLeft;
   readonly CircleArrowRight = CircleArrowRight;
   readonly Plus = Plus;
@@ -42,10 +42,6 @@ export class FlashCardsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentCard = this.cardService.currentCard$;
-  }
-
-  ngOnDestroy() {
-    this.cardService.currentCard$.set({} as Card);
   }
 
   createClicked = output();
