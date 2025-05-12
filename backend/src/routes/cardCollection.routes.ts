@@ -72,6 +72,7 @@ cardCollectionRouter.delete("/:collectionId", isAuthenticated, async (req, res) 
         }
 
         const response = await collections?.cardCollections?.deleteOne({ _id: id });
+        await collections?.cards?.deleteOne({ _id: id });
 
         res.status(200).send(response);
     } catch (error) {
