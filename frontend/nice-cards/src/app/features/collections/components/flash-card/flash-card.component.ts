@@ -5,8 +5,9 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, input } from '@angular/core';
+import { Component, input, OnInit, signal } from '@angular/core';
 import { Card } from '@features/collections/models/card.interface';
+import { CardService } from '@features/collections/services/cards.service';
 import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -22,11 +23,16 @@ import { LucideAngularModule } from 'lucide-angular';
     ]),
   ],
 })
-export class FlashCardComponent {
-  card = input<Card | undefined>({} as Card);
+export class FlashCardComponent implements OnInit {
+  card = signal<Card>({} as Card);
+
   frontShown = input<boolean>();
   animationDisabled = input<boolean>();
   pageInfo = input<string>();
 
-  constructor() {}
+  constructor(private cardService: CardService) {}
+
+  ngOnInit() {
+    this.card = this.cardService.currentCard$;
+  }
 }

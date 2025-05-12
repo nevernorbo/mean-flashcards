@@ -24,7 +24,6 @@
     >
       @if (currentCard().order) {
         <flash-card
-          [card]="currentCard()"
           [frontShown]="frontShown()"
           [animationDisabled]="animationDisabled()"
           [pageInfo]="`${currentCard().order} / ${cards().length}`"
