@@ -24,7 +24,7 @@ docker compose build
 docker compose up
 ```
 
-For added performance benefits docker compose is using [watch](https://docs.docker.com/compose/how-tos/file-watch/) mode instead of volumes (but that can be used as well, I just found it more difficult to work with).
+For added performance benefits docker compose is using [watch](https://docs.docker.com/compose/how-tos/file-watch/) mode instead of volumes (but that can be used as well, I just found it more difficult to work with). Enabling watch mode detects file changes made to both backend and frontend containers enabling hot reloading which makes development easy.
  
 If you want to develop the application, on first install run the `npm i` command in the `/backend` and `/frontend/nice-cards` folders.
 
