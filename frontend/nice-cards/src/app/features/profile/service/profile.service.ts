@@ -29,7 +29,7 @@ export class ProfileService {
     return this.http.patch(
       `${this.profileUrl}/${this.$user()._id}`,
       { editProfileForm: editProfileForm },
-      { withCredentials: true, responseType: 'text' }
+      { withCredentials: true }
     );
   }
 

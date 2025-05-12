@@ -7,7 +7,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   return inject(AuthService)
-    .checkAuthStatus()
+    .checkAuthStatusRequest()
     .pipe(
       map((response) => {
         if (!response.isAuthenticated) {

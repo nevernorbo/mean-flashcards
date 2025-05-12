@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
 
 @Component({
@@ -7,18 +7,12 @@ import { AuthService } from '@core/auth/services/auth.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-  constructor(private authService: AuthService) {
+export class HomeComponent implements OnInit {
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
     if (!this.authService.isAuthenticated()) {
-      this.authService.checkAuthStatus().subscribe({
-        next: (response) => {
-          this.authService.isAuthenticated.set(response.isAuthenticated);
-          this.authService.authenticatedUser.set(response.user);
-        },
-        error: (error) => {
-          console.log('Failed to check authentication status: ', error);
-        },
-      });
+      this.authService.checkAuthStatus();
     }
   }
 }

@@ -10,6 +10,7 @@ import { EditProfileForm } from '@features/profile/models/profile';
 import { ProfileService } from '@features/profile/service/profile.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { OutlinedButtonComponent } from '@shared/components/button/outlined-button.component';
+import { NotificationService } from '@shared/components/notification/services/notification.service';
 import { LucideAngularModule, User } from 'lucide-angular';
 
 @Component({
@@ -34,6 +35,7 @@ export class ProfileEditingViewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private profileService: ProfileService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -49,13 +51,15 @@ export class ProfileEditingViewComponent implements OnInit {
     const editProfileForm = this.editProfileForm.value as EditProfileForm;
 
     this.profileService.updateProfile(editProfileForm).subscribe({
-      next: (response) => {
-        console.log('Successfully edited profile: ', response);
+      next: (response: any) => {
+        console.log(response);
         this.editingFinished.emit();
         this.profileService.fetchUser(this.user()!._id);
+        this.notificationService.show(response.successMessage, 'success');
       },
       error: (error) => {
         console.log('Error while updating profile: ', error);
+        this.notificationService.show(error.error.errorMessage, 'error');
       },
     });
   }

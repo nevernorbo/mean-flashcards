@@ -1,16 +1,15 @@
 import { Component, output } from '@angular/core';
-import { LucideAngularModule, CircleX } from 'lucide-angular';
-import { FormInputComponent } from '@shared/components/form-input/form-input.component';
-import { ButtonComponent } from '@shared/components/button/button.component';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CollectionService } from '@features/collections/services/collection.service';
 import { CreateNewCollectionForm } from '@features/collections/models/card.interface';
-import { Router } from '@angular/router';
+import { CollectionService } from '@features/collections/services/collection.service';
+import { ButtonComponent } from '@shared/components/button/button.component';
+import { FormInputComponent } from '@shared/components/form-input/form-input.component';
+import { CircleX, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'create-card-popup',
@@ -30,8 +29,7 @@ export class NewCollectionComponent {
 
   constructor(
     private fb: FormBuilder,
-    private collectionService: CollectionService,
-    private router: Router
+    private collectionService: CollectionService
   ) {}
 
   ngOnInit(): void {
@@ -42,18 +40,9 @@ export class NewCollectionComponent {
   }
 
   handleSubmit() {
-    this.collectionService
-      .createCardCollection(
-        this.newCollectionForm.value as CreateNewCollectionForm
-      )
-      .subscribe({
-        next: (createdId) => {
-          this.router.navigateByUrl(`/collection/${createdId}`);
-        },
-        error: (error) => {
-          console.log('Error trying to create new card collection: ', error);
-        },
-      });
+    this.collectionService.createCardCollection(
+      this.newCollectionForm.value as CreateNewCollectionForm
+    );
   }
 
   closePopup() {

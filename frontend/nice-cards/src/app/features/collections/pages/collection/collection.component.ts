@@ -9,11 +9,12 @@ import {
 import { CardService } from '@features/collections/services/cards.service';
 import { CollectionService } from '@features/collections/services/collection.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
+import { OutlinedButtonComponent } from '@shared/components/button/outlined-button.component';
+import { ConfirmPopupComponent } from '@shared/components/confirm-popup/confirm-popup';
+import { NotificationService } from '@shared/components/notification/services/notification.service';
 import { LucideAngularModule, Pencil, Trash } from 'lucide-angular';
 import { EditFlashCardComponent } from '../../components/edit-flash-card/edit-flash-card.component';
 import { FlashCardsComponent } from '../../components/flash-cards/flash-cards.component';
-import { OutlinedButtonComponent } from '@shared/components/button/outlined-button.component';
-import { ConfirmPopupComponent } from '@shared/components/confirm-popup/confirm-popup';
 import { EditCollectionPopupComponent } from '../edit-collection/edit-collection.component';
 
 @Component({
@@ -47,7 +48,7 @@ export class CollectionComponent implements OnInit {
     if (
       this.authService.isModeratorOrAdmin() ||
       this.authService.authenticatedUser()?._id ===
-      this.cardCollection().ownerId
+        this.cardCollection().ownerId
     ) {
       return true;
     }
@@ -69,7 +70,8 @@ export class CollectionComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private collectionService: CollectionService,
-    private cardService: CardService
+    private cardService: CardService,
+    private notificationService: NotificationService
   ) {
     const collectionId = this.route.snapshot.paramMap.get('id');
 
@@ -127,11 +129,19 @@ export class CollectionComponent implements OnInit {
       next: (response) => {
         this.showDeletePopup.set(false);
         this.router.navigateByUrl('/collections');
+        this.notificationService.show(
+          'Successfully deleted collection',
+          'success'
+        );
 
         console.log('Successfully deleted a card: ', response);
       },
       error: (error) => {
         console.log('Error when trying to delete a card: ', error);
+        this.notificationService.show(
+          'Error while trying to delete collection',
+          'error'
+        );
       },
     });
   }

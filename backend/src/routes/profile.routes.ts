@@ -59,7 +59,7 @@ profileRouter.patch("/:id", isAuthenticated, async (req, res) => {
         const user = req.user as User;
 
         if (!checkPermission(user, userId)) {
-            res.status(403).send("You don't have permission to do this");
+            res.status(403).send({ errorMessage: "You don't have permission to do this" });
             return;
         }
 
@@ -72,9 +72,9 @@ profileRouter.patch("/:id", isAuthenticated, async (req, res) => {
 
         if (existingUser && !existingUser._id.equals(userId)) {
             if (existingUser.profile.username === username) {
-                res.status(409).send("Username already taken");
+                res.status(409).send({ errorMessage: "Username already taken" });
             } else {
-                res.status(409).send("An account already exists with this email address");
+                res.status(409).send({ errorMessage: "An account already exists with this email address" });
             }
             return;
         }
@@ -91,9 +91,9 @@ profileRouter.patch("/:id", isAuthenticated, async (req, res) => {
             }
         );
 
-        res.status(200).send("Successful update");
+        res.status(200).send({ successMessage: "Profile updated" });
     } catch (error) {
-        res.status(500).send(error instanceof Error ? error.message : "Unknown error");
+        res.status(500).send(error instanceof Error ? error.message : { errorMessage: "Unknown error" });
     }
 });
 

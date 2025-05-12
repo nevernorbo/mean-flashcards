@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from '@core/auth/services/auth.service';
 import { LucideAngularModule } from 'lucide-angular';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import { AuthService } from '@core/auth/services/auth.service';
+import { NotificationComponent } from './shared/components/notification/components/notification.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, LucideAngularModule],
+  imports: [
+    RouterOutlet,
+    NavbarComponent,
+    LucideAngularModule,
+    NotificationComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -16,14 +22,6 @@ export class AppComponent {
     Here because the user might reload on a different route than 'home'
   */
   constructor(private authService: AuthService) {
-    this.authService.checkAuthStatus().subscribe({
-      next: (response) => {
-        this.authService.isAuthenticated.set(response.isAuthenticated);
-        this.authService.authenticatedUser.set(response.user);
-      },
-      error: (error) => {
-        console.log('Error trying to get authenticated user: ', error);
-      },
-    });
+    this.authService.checkAuthStatus();
   }
 }

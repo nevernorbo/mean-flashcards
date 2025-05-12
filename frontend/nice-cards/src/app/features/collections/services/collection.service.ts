@@ -5,6 +5,8 @@ import {
   EditCollectionForm,
 } from '../models/card.interface';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { NotificationService } from '@shared/components/notification/services/notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,11 @@ export class CollectionService {
   cardCollection$ = signal<CardCollection>({} as CardCollection);
   likedCollections$ = signal<string[]>([]);
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   getOwnedCardCollections() {
     return this.httpClient.get<CardCollection[]>(
@@ -72,11 +78,20 @@ export class CollectionService {
   }
 
   createCardCollection(createNewCollectionForm: CreateNewCollectionForm) {
-    return this.httpClient.post(
-      `${this.url}/card-collection`,
-      createNewCollectionForm,
-      { withCredentials: true }
-    );
+    this.httpClient
+      .post(`${this.url}/card-collection`, createNewCollectionForm, {
+        withCredentials: true,
+      })
+      .subscribe({
+        next: (createdId) => {
+          this.router.navigateByUrl(`/collection/${createdId}`);
+          this.notificationService.show('Collection created', 'success');
+        },
+        error: (error) => {
+          console.log('Error trying to create new card collection: ', error);
+          this.notificationService.show('Could not create collection', 'error');
+        },
+      });
   }
 
   updateCardCollection(editCollectionForm: EditCollectionForm) {

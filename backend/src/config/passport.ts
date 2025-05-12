@@ -21,17 +21,23 @@ export function configurePassport(passport: PassportStatic) {
                     const user = await collections.users?.findOne({ email });
 
                     if (!user) {
-                        return done(null, false, {
-                            message: "Invalid credentials",
-                        });
+                        return done(
+                            {
+                                errorMessage: "Invalid credentials",
+                            },
+                            false
+                        );
                     }
 
                     if (await argon2.verify(user.password!, password)) {
                         return done(null, createPublicUser(user));
                     } else {
-                        return done(null, false, {
-                            message: "Invalid credentials",
-                        });
+                        return done(
+                            {
+                                errorMessage: "Invalid credentials",
+                            },
+                            false
+                        );
                     }
                 } catch (error) {
                     return done(error);
@@ -92,7 +98,7 @@ export function configurePassport(passport: PassportStatic) {
                 clientID: process.env.FACEBOOK_CLIENT_ID!,
                 clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
                 callbackURL: "http://localhost:5200/api/auth/facebook/callback",
-                profileFields: ['id', 'email', 'name', 'picture.type(large)'],
+                profileFields: ["id", "email", "name", "picture.type(large)"],
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
@@ -106,7 +112,8 @@ export function configurePassport(passport: PassportStatic) {
                             email: profile.emails?.[0].value || "",
                             role: "user",
                             profile: {
-                                username: profile.displayName || `${profile.name?.givenName} ${profile.name?.familyName}`,
+                                username:
+                                    profile.displayName || `${profile.name?.givenName} ${profile.name?.familyName}`,
                                 avatarUrl: profile.photos?.[0].value,
                                 bio: "",
                                 createdAt: new Date().toISOString(),

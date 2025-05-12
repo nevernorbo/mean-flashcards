@@ -20,15 +20,15 @@ authRouter.post("/signup", async (req, res) => {
 
         if (existingUser) {
             if (existingUser.profile.username === username) {
-                res.status(409).send("Username already taken");
+                res.status(409).send({ errorMessage: "Username already taken" });
             } else {
-                res.status(409).send("An account already exists with this email address");
+                res.status(409).send({ errorMessage: "An account already exists with this email address" });
             }
             return;
         }
 
         if (password !== passwordAgain) {
-            res.status(400).send("Provided passwords don't match");
+            res.status(400).send({ errorMessage: "Provided passwords don't match" });
             return;
         }
 
@@ -49,13 +49,12 @@ authRouter.post("/signup", async (req, res) => {
         const result = await collections?.users?.insertOne(user);
 
         if (result?.acknowledged) {
-            res.status(200).send("Succesfully signed up");
+            res.status(200).send({ successMessage: "Succesfully signed up!" });
         } else {
-            res.status(500).send("Sign up failed");
+            res.status(500).send({ errorMessage: "Sign up failed" });
         }
     } catch (error) {
-        console.error(error);
-        res.status(400).send(error instanceof Error ? error.message : "Unknown error");
+        res.status(400).send({ errorMessage: "Something went wrong while trying to sign up" });
     }
 });
 
@@ -67,7 +66,7 @@ authRouter.post("/login", (req, res, next) => {
             req.login(user, (err: string | null) => {
                 if (err) {
                     console.log(err);
-                    res.status(500).send("Internal server error.");
+                    res.status(500).send(err);
                 } else {
                     res.status(200).send(user);
                 }
@@ -101,13 +100,13 @@ authRouter.get(
 // Logout
 authRouter.post("/logout", (req, res) => {
     if (!req.isAuthenticated()) {
-        res.status(401).send("Not logged in");
+        res.status(401).send({ errorMessage: "Not logged in" });
         return;
     }
 
     req.logout((err) => {
-        if (err) return res.status(500).send("Error logging out");
-        res.status(200).send("Succesfully logged out");
+        if (err) return res.status(500).send({ errorMessage: "Error logging out" });
+        res.status(200).send({});
     });
 });
 
